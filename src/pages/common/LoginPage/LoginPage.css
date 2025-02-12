@@ -1,0 +1,115 @@
+.login-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: var(--double-default-spacing);
+    background: linear-gradient(to right, var(--button-color-primary-hover), var(--primary-color));
+}
+
+.login-page-description {
+    color: var(--text-color-primary);
+    font-size: 14px;
+    margin-bottom: var(--default-spacing);
+    text-align: center;
+}
+
+.login-page-form {
+    background-color: var(--color-surface);
+    padding: var(--double-default-spacing);
+    border-radius: var(--default-border-radius-extra);
+    box-shadow: 0 4px 10px var(--shadow-color-primary);
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--double-default-spacing);
+}
+
+.login-page-form-group {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    gap: var(--default-spacing);
+    width: 100%;
+}
+
+.login-page-label {
+    font-size: 14px;
+    color: var(--text-color-primary);
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.login-page-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--default-border-radius);
+    font-size: 14px;
+    color: var(--text-color-primary);
+}
+
+.login-page-input:focus {
+    outline: none;
+    border-color: var(--button-color-primary);
+    box-shadow: 0 0 4px var(--button-color-primary);
+}
+
+.login-page-error-message {
+    color: var(--button-color-primary-wrong);
+    font-size: 14px;
+    text-align: center;
+    margin-top: var(--default-spacing);
+}
+
+.login-page-submit-button {
+    margin-top: var(--triple-default-spacing);
+    padding: var(--default-spacing);
+    background-color: var(--button-color-primary);
+    color: var(--text-color-button);
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--default-border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-page-submit-button:hover {
+    background-color: var(--button-color-primary-hover);
+}
+
+.login-page-submit-button:disabled {
+    background-color: var(--button-color-primary-disabled);
+    cursor: not-allowed;
+}
+
+.login-page-forgot-password {
+    text-align: center;
+    margin-top: var(--default-spacing);
+}
+
+.login-page-forgot-password a {
+    color: var(--text-color-accent);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+
+.login-page-forgot-password a:hover {
+    color: var(--text-color-primary);
+    text-decoration: underline;
+}
+
+@media (max-width: 1000px) {
+    .login-page-form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--double-default-spacing);
+    }
+}

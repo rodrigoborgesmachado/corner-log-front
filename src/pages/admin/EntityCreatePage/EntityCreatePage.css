@@ -1,0 +1,53 @@
+.form-family {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Makes inputs take full width */
+    justify-content: center;
+    padding: var(--double-default-spacing);
+}
+
+/* Ensure form groups are aligned */
+.form-family .form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Style form inputs */
+.form-family input,
+.form-family select {
+    padding: 10px;
+    border: 1px solid var(--panel-border-color);
+    border-radius: var(--default-border-radius);
+    font-size: 16px;
+    width: 100%; /* Ensures input takes full width */
+}
+
+/* Adjust button position */
+.form-family button {
+    align-self: flex-end; /* Moves button to the right */
+    margin-top: var(--default-spacing);
+    padding: 10px 20px;
+    background-color: var(--button-color-primary);
+    color: var(--text-color-button);
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--default-border-radius);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.form-family button:hover {
+    background-color: var(--button-color-primary-hover);
+}
+
+/* Make sure the form stays centered on smaller screens */
+@media (max-width: 768px) {
+    .form-family {
+        margin: auto; /* Centers the form horizontally */
+    }
+    .form-family {
+        width: 90%;
+        padding: var(--default-spacing);
+    }
+}

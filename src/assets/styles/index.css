@@ -1,0 +1,401 @@
+:root {
+    /* Background Colors */
+    --background-color: #FFFFFF; 
+    --desktop-background-color: #FAFAFA; 
+
+    /* Primary Theme Colors */
+    --primary-color: #d66b29; 
+    --primary-color-hover: #ac5320;
+    --modal-primary-color: #ac5320; 
+
+    /* Panel Colors */
+    --secundary-color: #F5F5F5; 
+    --secundary-color-hover: #EDEDED; 
+
+    /* Primary Button Colors */
+    --button-color-primary: #d66b29; 
+    --button-color-primary-hover: #f77b34; 
+    --button-color-primary-disabled: #F8D9C0; 
+    --button-color-primary-right: #2D6A4F; 
+    --button-color-primary-right-hover: #1F5237;
+    --button-color-primary-wrong: #D62828; 
+    --button-color-primary-wrong-hover: #A61616;
+
+    /* Secondary Button Colors */
+    --button-color-secundary: #3D5A80; 
+    --button-color-secundary-hover: #293F50;
+    --button-color-secundary-wrong: #8D0801; 
+    --button-color-secundary-wrong-hover: #5E0600;
+
+    /* Text Colors */
+    --title-color: #102A43; 
+    --text-color-primary: #2C3E50; 
+    --text-color-primary-light: #52616B;
+    --text-color-primary-dark: #1A2A33;
+    --text-color-secondary: #FFFFFF; 
+    --text-color-accent: #d66b29; 
+    --text-color-code: #d66b29;
+    --text-color-button: #FFFFFF; 
+
+    /* Borders, Shadows, and Separators */
+    --separator-color-primary: rgba(0, 0, 0, 0.12);
+    --separator-marker-color-primary: #d66b29;
+    --panel-border-color: #D1D5DB; 
+    --shadow-color-primary: rgba(0, 0, 0, 0.1);
+    --shadow-color-secondary: rgba(0, 0, 0, 0.08);
+
+    /* Surfaces and Blocks */
+    --block-color: #FFFFFF;
+    --block-color-secundary: #F8F9FA;
+    --color-surface: #FFFFFF;
+    --color-surface-variant: #FFF3E0; /* Soft orange accent */
+
+    /* Loader and Modal Colors */
+    --loader-color: #d66b29;
+    --modal-background-color: rgba(255, 255, 255, 0.95);
+
+    /* Footer Height */
+    --footer-heigth: 48px;
+
+    /* Spacing and Layout */
+    --default-spacing: 8px;
+    --double-default-spacing: calc(2 * var(--default-spacing));
+    --triple-default-spacing: calc(3 * var(--default-spacing));
+    --default-max-width: 1080px;
+    --default-border-radius: 6px;
+    --default-border-radius-extra: 18px;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color-primary);
+    width: 100%;
+    height: 100%;
+    text-align: justify;
+}
+
+.Toastify__progress-bar {
+    background-color: var(--primary-color) !important;
+}
+
+.Toastify__toast-icon svg {
+    fill: var(--primary-color) !important; /* Adjust the icon color */
+}
+
+.main-page {
+    padding: var(--double-default-spacing);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: var(--background-color);
+}
+
+.main-button {
+    padding: var(--default-spacing);
+    background-color: var(--button-color-primary);
+    color: var(--text-color-button);
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--default-border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.main-button:hover {
+    background-color: var(--button-color-primary-hover);
+}
+
+.main-button:disabled {
+    background-color: var(--button-color-primary-disabled);
+    cursor: not-allowed;
+}
+
+.main-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--default-border-radius);
+}
+
+.div-with-border{
+    border: 1px solid #e0e0e0;
+}
+
+.div-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.padding-default{
+    padding: 0.75rem;
+}
+
+.margin-top-default{
+    margin-top: var(--default-spacing);
+}
+
+.margin-top-double-default{
+    margin-top: var(--double-default-spacing);
+}
+
+.margin-top-triple-default{
+    margin-top: var(--triple-default-spacing);
+}
+
+.brighten-on-hover:hover {
+    filter: brightness(1.2); /* Increase brightness by 20% */
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.option-link {
+    position: relative;
+    cursor: pointer;
+}
+
+.option-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: width 0.5s ease-in-out; 
+}
+
+.option-link:hover::after {
+    width: 100%;
+}
+
+.right-component {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.center-component {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gap-default{
+    gap: var(--default-spacing);
+}
+
+.flex-row{
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+.flex-column{
+    display: flex;
+    flex-direction: column;
+}
+
+.align-end{
+    justify-content: right !important;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.margin-bottom-default{
+    margin-bottom: var(--default-spacing);
+}
+
+.margin-bottom-double-default{
+    margin-bottom: var(--double-default-spacing);
+}
+
+.padding-bottom-4-px{
+    padding-bottom: 4px;
+}
+
+.title{
+    font-size: 16px;
+    color: var(--title-color);
+    font-weight: 500;
+    margin: 0;
+}
+
+.small-font{
+    font-size: x-small;
+}
+
+.small-input {
+    width: 64px;
+    text-align: center;
+}
+
+.box {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.box-title{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px
+}
+
+.flex-space-between{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.item-active{
+    background-color: var(--button-color-primary-right);
+    color: var(--text-color-secondary) !important;
+    padding: var(--default-spacing);
+}
+
+.item-inactive{
+    background-color: var(--button-color-primary-wrong);
+    color: var(--text-color-secondary) !important;
+    padding: var(--default-spacing);
+}
+
+.item-in-progress{
+    background-color: var(--button-color-primary-right);
+    color: var(--text-color-secondary) !important;
+    padding: var(--default-spacing);
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-container {
+    background-color: var(--modal-primary-color);
+    padding: 2rem;
+    border-radius: var(--default-border-radius-extra);
+    width: 100%;
+    max-width: 852px;
+    color: var(--text-color-secondary);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.close-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    font-size: 2.5rem;
+    background: none;
+    border: none;
+    color: var(--text-color-secondary);
+    cursor: pointer;
+}
+
+.modal-content{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-container-generic{
+    background-color: var(--modal-primary-color);
+    padding: 2rem;
+    border-radius: var(--default-border-radius-extra);
+    color: var(--text-color-secondary);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.modal-message {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.modal-actions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 8px;
+    gap: 1rem;
+}
+
+.modal-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: var(--default-spacing);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input {
+    padding: 0.5rem;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--default-border-radius);
+}
+
+.form-group select {
+    padding: 0.5rem;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--default-border-radius);
+}
+
+.title-with-options{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: var(--default-spacing);
+    flex-wrap: wrap;
+}
+
+.display-none{
+    display: none !important;
+}
+
+.info-group{
+    display: flex;
+    flex-direction: column;
+    gap: var(--default-spacing);
+}
+
+.wrap{
+    flex-wrap: wrap;
+}

@@ -1,0 +1,104 @@
+.dashboard-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--double-default-spacing);
+    margin-bottom: var(--double-default-spacing);
+}
+
+.summary-card {
+    background-color: var(--color-surface);
+    padding: var(--double-default-spacing);
+    border-radius: var(--default-border-radius);
+    box-shadow: 0 2px 5px var(--shadow-color-primary);
+    text-align: center;
+    font-weight: bold;
+    color: var(--text-color-primary);
+}
+
+.dashboard-chart {
+    margin-top: var(--double-default-spacing);
+    padding: var(--double-default-spacing);
+    background-color: var(--color-surface);
+    border-radius: var(--default-border-radius);
+    box-shadow: 0 2px 5px var(--shadow-color-primary);
+}
+
+.dashboard-chart h2 {
+    text-align: center;
+    margin-bottom: var(--double-default-spacing);
+    color: var(--text-color-primary);
+}
+
+/* Ensure filters align properly */
+.container-admin-page-filters {
+    display: flex;
+    flex-direction: column;
+    gap: var(--double-default-spacing);
+    flex-wrap: wrap;
+}
+
+.container-admin-page-filters label {
+    font-weight: bold;
+    color: var(--text-color-primary);
+}
+
+.dashboard-filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--double-default-spacing);
+    padding: var(--double-default-spacing);
+    background-color: var(--color-surface);
+    border-radius: var(--default-border-radius);
+    box-shadow: 0 2px 5px var(--shadow-color-primary);
+    margin-bottom: var(--double-default-spacing);
+}
+
+.dashboard-filter label {
+    font-weight: bold;
+    color: var(--text-color-primary);
+}
+
+.dashboard-filter input {
+    padding: var(--default-spacing);
+    border: 1px solid var(--border-color);
+    border-radius: var(--default-border-radius);
+    background-color: var(--color-surface);
+    color: var(--text-color-primary);
+    box-shadow: 0 2px 5px var(--shadow-color-primary);
+}
+
+.dashboard-chart>canvas {
+    width: 100% !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .dashboard-summary {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .summary-card {
+        font-size: 0.9rem;
+        padding: var(--default-spacing);
+    }
+
+    .container-admin-page-filters {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dashboard-chart {
+        padding: var(--default-spacing);
+    }
+
+    .dashboard-filter {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dashboard-filter input {
+        width: 100%;
+    }
+}
+

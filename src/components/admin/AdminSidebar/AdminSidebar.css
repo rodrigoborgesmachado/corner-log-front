@@ -1,0 +1,114 @@
+/* Sidebar container */
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    background-color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    justify-content: space-between;
+    overflow-y: auto; /* Adiciona a barra de rolagem */
+    scrollbar-width: thin; /* Para navegadores Firefox */
+    scrollbar-color: var(--button-color-secundary) var(--primary-color); /* Cor personalizada para Firefox */
+    z-index: 500;
+}
+
+/* Estilização da barra de rolagem para navegadores Webkit (Chrome, Safari) */
+.sidebar::-webkit-scrollbar {
+    width: 8px; /* Largura da barra de rolagem */
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: var(--primary-color); /* Cor do track da barra de rolagem */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: var(--button-color-secundary); /* Cor do polegar da barra de rolagem */
+    border-radius: 10px; /* Bordas arredondadas */
+    border: 2px solid var(--primary-color); /* Espaço ao redor do polegar */
+}
+
+/* Sidebar logo */
+.sidebar__logo img {
+    width: 150px; /* Adjust as needed */
+    margin-bottom: 20px;
+}
+
+.sidebar__logo p{
+    color: var(--text-color-secondary);
+    font-size: large;
+}
+
+/* Sidebar menu */
+.sidebar__menu {
+    width: 100%;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1; /* Makes menu take up available space */
+}
+
+.sidebar__menu-item {
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap:8px;
+    color: var(--text-color-secondary);
+    font-size: 20px;
+    text-decoration: none;
+    padding-left: 2rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar__menu-item:hover {
+    background-color: var(--primary-color-hover);
+    color: var(--text-color-secondary);
+}
+
+/* Active menu item styling */
+.sidebar__menu-item.active {
+    background-color: var(--primary-color-hover);
+    font-weight: bold;
+}
+
+.sidebar__menu-item-selected{
+    border-left: 5px solid var(--button-color-secundary);
+    background-color: var(--primary-color-hover);
+}
+
+    /* Logoff option */
+.sidebar__logoff {
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap:1rem;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-color-secondary);
+    font-size: 20px;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: var(--button-color-primary);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar__logoff:hover {
+    background-color: var(--button-color-primary-hover);
+    color: var(--text-color-secondary);
+}
+
+.logo-class-img-sidebar{
+    width: 100%;
+}
+
+.logo-class-img-sidebar img{
+    width: 100%;
+}

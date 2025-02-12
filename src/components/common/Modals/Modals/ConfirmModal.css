@@ -1,0 +1,9 @@
+.modal-yes {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.modal-no {
+    background-color: #F44336;
+    color: white;
+}

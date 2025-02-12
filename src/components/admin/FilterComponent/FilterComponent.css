@@ -1,0 +1,57 @@
+.filter-container-main {
+    margin: var(--double-default-spacing) 0;
+    display: flex;
+    gap: var(--double-default-spacing);
+    width: 100%;
+    align-items: center; /* Ensures items align vertically if needed */
+    flex-wrap: wrap;
+}
+
+.filter-itens {
+    display: flex;
+    flex-direction: column;
+    gap: var(--double-default-spacing);
+    flex-grow: 1; /* Takes up the remaining space on the left */
+}
+
+.filter-buttons {
+    display: flex;
+    gap: var(--double-default-spacing);
+    justify-content: flex-end; /* Aligns buttons to the right */
+}
+
+.filters-more{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: var(--double-default-spacing);
+}
+
+.filters-more-item{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.filters-more-item label{
+    margin-bottom: var(--default-spacing);
+}
+
+.filter-basic{
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.filter-basic-item {
+    display: flex;
+    flex-direction: column;
+    min-width: 16vh;
+    width: 100%;
+}
+
+@media (max-width: 1000px) {
+    .filter-basic{
+        flex-wrap: wrap;
+    }
+}
