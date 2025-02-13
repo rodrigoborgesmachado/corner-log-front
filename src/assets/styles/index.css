@@ -400,3 +400,57 @@ body {
 .wrap{
     flex-wrap: wrap;
 }
+
+.form-register {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Makes inputs take full width */
+    justify-content: center;
+    padding: var(--double-default-spacing);
+}
+
+/* Ensure form groups are aligned */
+.form-register .form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Style form inputs */
+.form-register input,
+.form-register select {
+    padding: 10px;
+    border: 1px solid var(--panel-border-color);
+    border-radius: var(--default-border-radius);
+    font-size: 16px;
+    width: 100%; /* Ensures input takes full width */
+}
+
+/* Adjust button position */
+.form-register button {
+    align-self: flex-end; /* Moves button to the right */
+    margin-top: var(--default-spacing);
+    padding: 10px 20px;
+    background-color: var(--button-color-primary);
+    color: var(--text-color-button);
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--default-border-radius);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.form-register button:hover {
+    background-color: var(--button-color-primary-hover);
+}
+
+/* Make sure the form stays centered on smaller screens */
+@media (max-width: 768px) {
+    .form-register {
+        margin: auto; /* Centers the form horizontally */
+    }
+    .form-register {
+        width: 90%;
+        padding: var(--default-spacing);
+    }
+}

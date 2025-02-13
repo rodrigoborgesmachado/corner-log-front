@@ -4,10 +4,9 @@ import entityApi from "../../../services/apiServices/entityApi";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../../services/redux/loadingSlice";
 import { toast } from "react-toastify";
-import './EntityCreatePage.css'
 import { maskCEP, maskCNPJ, maskPhone } from "../../../utils/masks";
 
-const EntityCreatePage = () => {
+const SquareCreatePage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { code } = useParams();
@@ -167,4 +166,4 @@ const EntityCreatePage = () => {
     );
 };
 
-export default EntityCreatePage;
+export default SquareCreatePage;

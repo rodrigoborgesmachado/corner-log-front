@@ -29,7 +29,7 @@ const AdminHeader = ({onclickMenu}) => {
         </div>
         <div className='navbar__menu-item'>
           <div className="admin-header__right" onClick={handleUserIconClick}>
-            <span>Olá, {userName}</span>
+            <span>Olá, {userName.split(' ')[0]}</span>
             <UserCustomIcon size={32} />
           </div>
         </div>

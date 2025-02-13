@@ -8,8 +8,12 @@ import Pagination from '../../../components/common/Pagination/Pagination';
 import { toast } from 'react-toastify';
 import { putDateOnPattern } from '../../../utils/functions';
 import FilterComponent from '../../../components/admin/FilterComponent/FilterComponent';
+import { useNavigate } from 'react-router-dom';
+import EditIcon from '../../../components/icons/EditIcon';
+import EyeIcon from '../../../components/icons/EyeIcon';
 
 const SquareListPage = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [items, setItems] = useState([]);
     const [page, setPage] = useState(1);
@@ -25,7 +29,7 @@ const SquareListPage = () => {
         const fetchItems = async () => {
             dispatch(setLoading(true));
             try {
-                const response = await squareApi.getPaginated({ page, quantity, orderBy, term: searchTerm, startDate, endDate, include: "" });
+                const response = await squareApi.getPaginated({ page, quantity, orderBy, term: searchTerm, startDate, endDate, include: "Entity,Entity.Entityimages" });
 
                 setItems(response.Results);
                 setTotalPages(response.TotalPages);
@@ -72,7 +76,10 @@ const SquareListPage = () => {
 
     return (
     <div className="container-admin-page">
-        <h1>Lista dos Itens</h1>
+        <div className='title-with-options'>
+            <h1>Quadras</h1>
+            <button className='main-button' onClick={() => navigate('adicionar')}>Nova Quadra</button>
+        </div>
         <div className='container-admin-page-filters div-with-border'>
             <h3>Filtros</h3>
             <FilterComponent placeHolder={'Descrição'} showTermFilter={true} showStartDate={true} showEndDate={true} submitFilter={search} exportFunction={exportFunction}/>
@@ -81,27 +88,24 @@ const SquareListPage = () => {
             <table className="admin-table">
                 <thead>
                     <tr>
-                        <th>Code</th>
-                        <th>Created</th>
-                        <th>Updated</th>
-                        <th>IsActive</th>
-                        <th>IsDeleted</th>
-                        <th>EntityCode</th>
-                        <th>Name</th>
-                        <th>Description</th>
+                        <th>Criação</th>
+                        <th>Empresa</th>
+                        <th>Nome</th>
+                        <th>Atualização</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                 {items.map((item) => (
                     <tr key={item.Id}>
-                        <td data-label='Code'><span>{item.Code}</span></td>
-                        <td data-label='Created'><span>{putDateOnPattern(item.Created)}</span></td>
-                        <td data-label='Updated'><span>{putDateOnPattern(item.Updated)}</span></td>
-                        <td data-label='IsActive'><span>{item.IsActive}</span></td>
-                        <td data-label='IsDeleted'><span>{item.IsDeleted}</span></td>
-                        <td data-label='EntityCode'><span>{item.EntityCode}</span></td>
-                        <td data-label='Name'><span>{item.Name}</span></td>
-                        <td data-label='Description'><span>{item.Description}</span></td>
+                        <td data-label='Criação'><span>{putDateOnPattern(item.Created)}</span></td>
+                        <td data-label='Empresa'><span>{item.Entity.Tradename}</span></td>
+                        <td data-label='Nome'><span>{item.Name}</span></td>
+                        <td data-label='Atualização'><span>{putDateOnPattern(item.Updated)}</span></td>
+                        <td className='flex-row align-end gap-default'>
+                            <span className='option-link' onClick={() => navigate('editar/' + item.Code)}><EditIcon/></span>
+                            <span className='option-link' onClick={() => navigate('' + item.Code)}><EyeIcon/></span>
+                        </td>
                     </tr>
                 ))}
                 </tbody>
