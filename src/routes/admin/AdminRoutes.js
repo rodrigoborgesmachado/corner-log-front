@@ -13,6 +13,7 @@ import SquaresavingListPage from '../../pages/admin/SquaresavingListPage/Squares
 import UserListPage from '../../pages/admin/UserListPage/UserListPage';
 import UserentityListPage from '../../pages/admin/UserentityListPage/UserentityListPage';
 import EntityCreatePage from '../../pages/admin/EntityCreatePage/EntityCreatePage';
+import EntityPage from '../../pages/admin/EntityPage/EntityPage';
 
 const AdminRoutes = () => (
   <AdminLayout>
@@ -20,6 +21,7 @@ const AdminRoutes = () => (
       <Route path="/" element={<DashboardPage />} />
       <Route path="/CashRegister" element={<CashregisterListPage />} />
       <Route path="/Empresas" element={<EntityListPage />} />
+      <Route path="/Empresas/:code" element={<EntityPage />} />
       <Route path="/Empresas/adicionar" element={<EntityCreatePage />} />
       <Route path="/Empresas/editar/:code" element={<EntityCreatePage />} />
       <Route path="/Logger" element={<LoggerListPage />} />

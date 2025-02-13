@@ -1,0 +1,60 @@
+.entity-page {
+    max-width: var(--default-max-width);
+    margin: auto;
+    padding: var(--double-default-spacing);
+    background-color: var(--block-color);
+    border-radius: var(--default-border-radius);
+    box-shadow: 0 2px 8px var(--shadow-color-primary);
+}
+
+.entity-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-color-accent);
+    margin-bottom: var(--default-spacing);
+}
+
+.entity-subtitle {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-color-primary);
+    margin-bottom: var(--double-default-spacing);
+}
+
+.entity-details,
+.entity-address,
+.entity-observation,
+.entity-meta {
+    margin-bottom: var(--double-default-spacing);
+    padding: var(--default-spacing);
+    border-radius: var(--default-border-radius);
+    background-color: var(--secundary-color);
+}
+
+.entity-details .info-group {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: var(--double-default-spacing);
+}
+
+.entity-details h2, .entity-address h2, .entity-meta h2{
+    margin-bottom: var(--triple-default-spacing);
+}
+
+.entity-address p{
+    margin: var(--default-spacing) 0px;
+}
+
+.entity-meta p {
+    font-size: 14px;
+    color: var(--text-color-primary-light);
+}
+
+.entity-loading,
+.entity-error,
+.entity-empty {
+    text-align: center;
+    font-size: 18px;
+    color: var(--text-color-primary);
+}

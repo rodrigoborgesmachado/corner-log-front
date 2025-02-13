@@ -3,8 +3,10 @@ import './AdminHeader.css';
 import UserCustomIcon from '../../icons/UserCustomIcon';
 import { useSelector } from 'react-redux';
 import { selectUserName } from '../../../services/redux/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 const AdminHeader = ({onclickMenu}) => {
+  const navigate = useNavigate();
   const userName = useSelector(selectUserName);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
@@ -22,7 +24,7 @@ const AdminHeader = ({onclickMenu}) => {
         >
           ☰
         </button>
-        <div className="admin-header__left">
+        <div className="admin-header__left clickable" onClick={() => navigate('/')}>
           <h1>Corner Log</h1>
         </div>
         <div className='navbar__menu-item'>

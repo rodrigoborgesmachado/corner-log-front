@@ -10,7 +10,7 @@ import LogoffIcon from '../../icons/LogoffIcon';
 import { useLocation } from 'react-router-dom';
 import BasketIcon from '../../icons/BasketIcon';
 import UserIcon from '../../icons/UserIcon';
-import logo from '../../../assets/images/logo.png';
+import logo from '../../../assets/images/logo_orange.png';
 import BuildingIcon from '../../icons/BuildingIcon';
 
 const AdminSidebar = () => {
