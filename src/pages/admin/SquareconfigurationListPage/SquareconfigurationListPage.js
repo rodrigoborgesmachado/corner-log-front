@@ -1,119 +1,92 @@
-import React, { useState, useEffect } from 'react';
-import './SquareconfigurationListPage.css';
-import squareconfigurationApi from '../../../services/apiServices/squareconfigurationApi';
-import { setLoading } from '../../../services/redux/loadingSlice';
-import { useDispatch } from 'react-redux';
-import configService from '../../../services/configService';
-import Pagination from '../../../components/common/Pagination/Pagination'; 
-import { toast } from 'react-toastify';
-import { putDateOnPattern } from '../../../utils/functions';
-import FilterComponent from '../../../components/admin/FilterComponent/FilterComponent';
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { setLoading } from "../../../services/redux/loadingSlice";
+import squareApi from "../../../services/apiServices/squareApi";
+import squareConfigApi from "../../../services/apiServices/squareconfigurationApi";
+import "./SquareconfigurationListPage.css";
+
+const daysOfWeek = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 
 const SquareconfigurationListPage = () => {
     const dispatch = useDispatch();
-    const [items, setItems] = useState([]);
-    const [page, setPage] = useState(1);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalItens, setTotalItens] = useState(0);
-    const quantity = configService.getDefaultNumberOfItemsTable(); 
-    const orderBy = "Id:Desc";
+    const [squares, setSquares] = useState([]);
+    const [selectedSquare, setSelectedSquare] = useState(null);
+    const [configurations, setConfigurations] = useState({});
 
     useEffect(() => {
-        const fetchItems = async () => {
+        const fetchSquares = async () => {
             dispatch(setLoading(true));
             try {
-                const response = await squareconfigurationApi.getPaginated({ page, quantity, orderBy, term: searchTerm, startDate, endDate, include: "" });
-
-                setItems(response.Results);
-                setTotalPages(response.TotalPages);
-                setTotalItens(response.TotalCount);
-            } catch (error) {
-                toast.error('Erro ao buscar os itens.');
+                const response = await squareApi.getAll();
+                setSquares(response);
+            } catch (err) {
+                toast.error("Erro ao carregar as quadras.");
             } finally {
                 dispatch(setLoading(false));
             }
         };
-        fetchItems();
-    }, [page, quantity, searchTerm, startDate, endDate, dispatch]);
 
-    const handlePageChange = (newPage) => {
-        if (newPage > 0 && newPage <= totalPages) {
-            setPage(newPage);
-        }
-    };
+        fetchSquares();
+    }, [dispatch]);
 
-    const search = ({term, startDate, endDate} = {}) => {
-        setSearchTerm(term);
-        setStartDate(startDate);
-        setEndDate(endDate);
-    }
-
-    const exportFunction = async ({term}) => {
+    const fetchConfiguration = async (squareCode) => {
+        dispatch(setLoading(true));
         try {
-            dispatch(setLoading(true));
-            const response = await squareconfigurationApi.export({ term: term, startDate, endDate });
-
-            if (response.Status === 200 && response.Object) {
-                window.open(response.Object, "_blank");
-                toast.success('Relatório gerado com sucesso!');
-            } else {
-                toast.error('Erro ao gerar o relatório');
-            }
-        } catch (error) {
-            toast.error('Erro ao gerar o relatório');
-        }
-        finally{
+            const response = await squareConfigApi.getBySquareCode(squareCode); 
+            setConfigurations(response);
+        } catch (err) {
+            toast.error("Erro ao carregar a configuração da quadra.");
+            setConfigurations({});
+        } finally {
             dispatch(setLoading(false));
         }
     };
 
+    const handleSquareChange = (event) => {
+        const squareCode = event.target.value;
+        setSelectedSquare(squareCode);
+        if (squareCode) fetchConfiguration(squareCode);
+    };
+
     return (
-    <div className="container-admin-page">
-        <h1>Lista dos Itens</h1>
-        <div className='container-admin-page-filters div-with-border'>
-            <h3>Filtros</h3>
-            <FilterComponent placeHolder={'Descrição'} showTermFilter={true} showStartDate={true} showEndDate={true} submitFilter={search} exportFunction={exportFunction}/>
+        <div className="container-admin-page div-with-border">
+            <h1 className="entity-title">Configuração de Quadra</h1>
+
+            <div className="form-group">
+                <label>Selecione a Quadra:</label>
+                <select className="main-input" onChange={handleSquareChange} value={selectedSquare || ""}>
+                    <option value="">Escolha uma quadra</option>
+                    {squares.map((square) => (
+                        <option key={square.Code} value={square.Code}>
+                            {square.Name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            {selectedSquare && (
+                <div className="square-configurations">
+                    {daysOfWeek.map((day, dayIndex) => (
+                        <div key={dayIndex} className="config-card">
+                            <h2>{day}</h2>
+                            <div className="config-hours">
+                                {Array.from({ length: 24 }, (_, hour) => {
+                                    const isTaken = configurations[dayIndex]?.includes(hour);
+                                    return (
+                                        <div key={hour} className={`hour-block ${isTaken ? "taken" : "available"}`}>
+                                            <label>{hour}:00 - {hour+1}:00</label>
+                                            <label>{isTaken ? "Configurado" : "Livre"}</label>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
-        <div className='container-admin-page-table div-with-border'>
-            <table className="admin-table">
-                <thead>
-                    <tr>
-                        <th>Code</th>
-                        <th>Created</th>
-                        <th>Updated</th>
-                        <th>IsActive</th>
-                        <th>IsDeleted</th>
-                        <th>SquareCode</th>
-                        <th>StartTime</th>
-                        <th>EndTime</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {items.map((item) => (
-                    <tr key={item.Code}>
-                        <td data-label='Code'><span>{item.Code}</span></td>
-                        <td data-label='Created'><span>{putDateOnPattern(item.Created)}</span></td>
-                        <td data-label='Updated'><span>{putDateOnPattern(item.Updated)}</span></td>
-                        <td data-label='IsActive'><span>{item.IsActive}</span></td>
-                        <td data-label='IsDeleted'><span>{item.IsDeleted}</span></td>
-                        <td data-label='SquareCode'><span>{item.SquareCode}</span></td>
-                        <td data-label='StartTime'><span>{item.StartTime}</span></td>
-                        <td data-label='EndTime'><span>{item.EndTime}</span></td>
-                        <td data-label='Price'><span>{item.Price}</span></td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            <sub>Total de Itens: {totalItens}</sub>
-            <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
-        </div>
-    </div>
     );
 };
 
 export default SquareconfigurationListPage;
-

@@ -1,0 +1,47 @@
+.square-configurations {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--double-default-spacing);
+    margin-top: var(--double-default-spacing);
+    max-width: fit-content;
+}
+
+.config-card {
+    background-color: var(--block-color-secundary);
+    padding: var(--double-default-spacing);
+    border-radius: var(--default-border-radius);
+    box-shadow: 0 2px 8px var(--shadow-color-primary);
+}
+
+.config-card h2 {
+    text-align: center;
+    margin-bottom: var(--default-spacing);
+    color: var(--text-color-primary);
+}
+
+.config-hours {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--default-spacing);
+}
+
+.hour-block {
+    display: flex;
+    flex-direction: column;
+    padding: var(--default-spacing);
+    border-radius: var(--default-border-radius);
+    text-align: center;
+    font-size: 14px;
+    min-width: fit-content;
+}
+
+.taken {
+    background-color: var(--button-color-primary-wrong);
+    color: var(--text-color-secondary);
+}
+
+.available {
+    background-color: var(--button-color-primary-right);
+    color: var(--text-color-secondary);
+}

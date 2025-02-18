@@ -27,10 +27,10 @@ const AdminRoutes = () => (
       <Route path="/Empresas/editar/:code" element={<EntityCreatePage />} />
       <Route path="/Quadras" element={<SquareListPage />} />
       <Route path="/Quadras/:code" element={<SquarePage />} />
+      <Route path="/Horarios" element={<SquareconfigurationListPage />} />
       <Route path="/Logger" element={<LoggerListPage />} />
       <Route path="/MailMessage" element={<MailmessageListPage />} />
       <Route path="/Payment" element={<PaymentListPage />} />
-      <Route path="/SquareConfiguration" element={<SquareconfigurationListPage />} />
       <Route path="/SquareSaving" element={<SquaresavingListPage />} />
       <Route path="/Usuarios" element={<UserListPage />} />
       <Route path="/UserEntity" element={<UserentityListPage />} />
