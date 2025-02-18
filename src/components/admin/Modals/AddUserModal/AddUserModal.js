@@ -38,7 +38,7 @@ const AddUserModal = ({ isOpen, closeModal }) => {
         try {
             dispatch(setLoading(true));
             const response = await adminApi.create(payload);
-            var message = response.Id ? 'Usuário criado com sucesso' : 'Erro ao criar usuário. Verifique os dados e tente novamente.';
+            var message = response.Code ? 'Usuário criado com sucesso' : 'Erro ao criar usuário. Verifique os dados e tente novamente.';
 
             setUsername('');
             setName('');

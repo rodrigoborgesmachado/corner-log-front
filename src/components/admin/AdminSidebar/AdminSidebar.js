@@ -10,7 +10,7 @@ import LogoffIcon from '../../icons/LogoffIcon';
 import { useLocation } from 'react-router-dom';
 import BasketIcon from '../../icons/BasketIcon';
 import UserIcon from '../../icons/UserIcon';
-import logo from '../../../assets/images/logo_orange.png';
+import logo from '../../../assets/images/logo_orange_black.png';
 import BuildingIcon from '../../icons/BuildingIcon';
 import FootballFieldIcon from '../../icons/FootballFieldIcon';
 
@@ -34,12 +34,12 @@ const AdminSidebar = () => {
       </div>
       <nav className="sidebar__menu">
         {isAdmin && <a href="/" className={pathSegments.length === 0 || (pathSegments[0] === 'dashboard') || pathSegments[1] === 'dashboard' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><DashBoardIcon color='white'/>Dashboard</a>}
-        {isAdmin && <a href="/CashRegister" className={pathSegments[0] === 'CashRegister' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>CashRegister</a>}
         {isAdmin && <a href="/Empresas" className={pathSegments[0] === 'Empresas' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BuildingIcon color='white'/>Empresas</a>}
+        {isAdmin && <a href="/Quadras" className={pathSegments[0] === 'Quadras' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><FootballFieldIcon color='white'/>Quadras</a>}
+        {isAdmin && <a href="/CashRegister" className={pathSegments[0] === 'CashRegister' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>CashRegister</a>}
         {isAdmin && <a href="/Logger" className={pathSegments[0] === 'Logger' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>Logger</a>}
         {isAdmin && <a href="/MailMessage" className={pathSegments[0] === 'MailMessage' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>MailMessage</a>}
         {isAdmin && <a href="/Payment" className={pathSegments[0] === 'Payment' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>Payment</a>}
-        {isAdmin && <a href="/Quadras" className={pathSegments[0] === 'Quadras' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><FootballFieldIcon color='white'/>Quadras</a>}
         {isAdmin && <a href="/SquareConfiguration" className={pathSegments[0] === 'SquareConfiguration' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>SquareConfiguration</a>}
         {isAdmin && <a href="/SquareSaving" className={pathSegments[0] === 'SquareSaving' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>SquareSaving</a>}
         {isAdmin && <a href="/Usuarios" className={pathSegments[0] === 'Usuarios' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><UserIcon color='white'/>Usuários</a>}

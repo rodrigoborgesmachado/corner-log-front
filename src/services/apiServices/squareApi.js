@@ -52,9 +52,9 @@ const squareApi = {
      * @param {Object} itemsData - The items data to update.
      * @returns {Promise<Object>} - The updated items data.
      */
-    update: async (itemsData) => {
+    update: async (code, itemsData) => {
         try {
-            const response = await api.put('/Square', itemsData);
+            const response = await api.put('/Square?code=' + code, itemsData);
             return response.data;
         } catch (error) {
             console.error('Error updating items :', error);

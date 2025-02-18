@@ -133,7 +133,7 @@ const UserListPage = () => {
                 </thead>
                 <tbody>
                 {items.map((item) => (
-                    <tr key={item.Id}>
+                    <tr key={item.Code}>
                         <td data-label='Criação'><span>{putDateOnPattern(item.Created)}</span></td>
                         <td data-label='Nome'><span>{item.Name}</span></td>
                         <td data-label='Email'><span>{item.Email}</span></td>

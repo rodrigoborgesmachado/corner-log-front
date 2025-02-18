@@ -11,6 +11,7 @@ import FilterComponent from '../../../components/admin/FilterComponent/FilterCom
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '../../../components/icons/EditIcon';
 import EyeIcon from '../../../components/icons/EyeIcon';
+import AddSquareModal from '../../../components/admin/Modals/AddSquareModal/AddSquareModal';
 
 const SquareListPage = () => {
     const navigate = useNavigate();
@@ -22,8 +23,30 @@ const SquareListPage = () => {
     const [endDate, setEndDate] = useState('');
     const [totalPages, setTotalPages] = useState(1);
     const [totalItens, setTotalItens] = useState(0);
+    const [isModalRegisterOpen, setIsModalRegisterOpen] = useState(false);
+    const [isModalEditOpen, setIsModalEditOpen] = useState(false);
+    const [editCode, setEditCode] = useState(false);
+    const [refresh, setRefresh] = useState(false);
     const quantity = configService.getDefaultNumberOfItemsTable(); 
     const orderBy = "Id:Desc";
+
+    const openRegisterModal = () => {
+        setIsModalRegisterOpen(true);
+    }
+
+    const closeRegisterModal = () => {
+        setIsModalRegisterOpen(false);
+    }
+
+    const openEditModal = (code) => {
+        setEditCode(code);
+        setIsModalEditOpen(true);
+    }
+
+    const closeEditModal = () => {
+        setEditCode('');
+        setIsModalEditOpen(false);
+    }
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -41,7 +64,7 @@ const SquareListPage = () => {
             }
         };
         fetchItems();
-    }, [page, quantity, searchTerm, startDate, endDate, dispatch]);
+    }, [page, quantity, searchTerm, startDate, endDate, refresh, dispatch]);
 
     const handlePageChange = (newPage) => {
         if (newPage > 0 && newPage <= totalPages) {
@@ -74,11 +97,45 @@ const SquareListPage = () => {
         }
     };
 
+    const createNewItem = async (square) =>{
+        try{
+            dispatch(setLoading(true));
+            var response = await squareApi.create(square);
+
+            toast.success(response.Name + ' criado com sucesso!');
+            setRefresh((prev) => !prev);
+        }
+        catch(error){
+            toast.error('Error :' + error);
+        }
+        finally{
+            dispatch(setLoading(false));
+        }
+    }
+
+    const updateItem = async (square) =>{
+        try{
+            dispatch(setLoading(true));
+            var response = await squareApi.update(editCode, square);
+
+            toast.success(response.Name + ' atualizado com sucesso com sucesso!');
+            setRefresh((prev) => !prev);
+        }
+        catch(error){
+            toast.error('Error :' + error);
+        }
+        finally{
+            dispatch(setLoading(false));
+        }
+    }
+
     return (
     <div className="container-admin-page">
+        <AddSquareModal isOpen={isModalRegisterOpen} onClose={closeRegisterModal} onSubmit={createNewItem}/>
+        <AddSquareModal isOpen={isModalEditOpen} onClose={closeEditModal} onSubmit={updateItem} codeSquare={editCode}/>
         <div className='title-with-options'>
             <h1>Quadras</h1>
-            <button className='main-button' onClick={() => navigate('adicionar')}>Nova Quadra</button>
+            <button className='main-button' onClick={openRegisterModal}>Nova Quadra</button>
         </div>
         <div className='container-admin-page-filters div-with-border'>
             <h3>Filtros</h3>
@@ -97,13 +154,13 @@ const SquareListPage = () => {
                 </thead>
                 <tbody>
                 {items.map((item) => (
-                    <tr key={item.Id}>
+                    <tr key={item.Code}>
                         <td data-label='Criação'><span>{putDateOnPattern(item.Created)}</span></td>
                         <td data-label='Empresa'><span>{item.Entity.Tradename}</span></td>
                         <td data-label='Nome'><span>{item.Name}</span></td>
                         <td data-label='Atualização'><span>{putDateOnPattern(item.Updated)}</span></td>
                         <td className='flex-row align-end gap-default'>
-                            <span className='option-link' onClick={() => navigate('editar/' + item.Code)}><EditIcon/></span>
+                            <span className='option-link' onClick={() => openEditModal(item.Code) }><EditIcon/></span>
                             <span className='option-link' onClick={() => navigate('' + item.Code)}><EyeIcon/></span>
                         </td>
                     </tr>

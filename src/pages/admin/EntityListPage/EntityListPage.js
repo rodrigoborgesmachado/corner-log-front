@@ -100,7 +100,7 @@ const EntityListPage = () => {
                 </thead>
                 <tbody>
                 {items.map((item) => (
-                    <tr key={item.Id}>
+                    <tr key={item.Code}>
                         <td data-label='Criação'><span>{putDateOnPattern(item.Created)}</span></td>
                         <td data-label='Nome Fantasia'><span>{item.Tradename}</span></td>
                         <td data-label='Nome'><span>{item.Corporatename}</span></td>

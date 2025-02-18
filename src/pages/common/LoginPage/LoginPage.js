@@ -5,7 +5,7 @@ import tokenApi from "../../../services/apiServices/tokenApi"; // Adjust the pat
 import "./LoginPage.css";
 import { setLoading } from '../../../services/redux/loadingSlice';
 import MessageModal from "../../../components/common/Modals/MessageModal/MessageModal";
-import logo from '../../../assets/images/logo_orange.png';
+import logo from '../../../assets/images/logo_orange_black.png';
 
 const LoginPage = () => {
     const [identifier, setIdentifier] = useState(""); // For email (admin) or CPF/CNPJ (client)

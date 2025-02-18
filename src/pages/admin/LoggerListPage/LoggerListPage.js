@@ -97,7 +97,7 @@ const LoggerListPage = () => {
                 </thead>
                 <tbody>
                 {items.map((item) => (
-                    <tr key={item.Id}>
+                    <tr key={item.Code}>
                         <td data-label='Id'><span>{item.Id}</span></td>
                         <td data-label='Created'><span>{putDateOnPattern(item.Created)}</span></td>
                         <td data-label='Updated'><span>{putDateOnPattern(item.Updated)}</span></td>

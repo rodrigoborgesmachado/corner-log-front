@@ -25,7 +25,7 @@ const AdminHeader = ({onclickMenu}) => {
           ☰
         </button>
         <div className="admin-header__left clickable" onClick={() => navigate('/')}>
-          <h1>Corner Log</h1>
+          <h1>Portal Web</h1>
         </div>
         <div className='navbar__menu-item'>
           <div className="admin-header__right" onClick={handleUserIconClick}>
