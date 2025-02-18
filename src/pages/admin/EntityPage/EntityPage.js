@@ -31,13 +31,13 @@ const EntityPage = () => {
         fetchEntity();
     }, [code, dispatch, navigate]);
 
-    if (!entity) return <p className="entity-empty">Carregando</p>;
+    if (!entity) return <p className="info-empty">Carregando</p>;
 
     return (
         <div className="container-admin-page div-with-border">
-            <h1 className="entity-title">{entity.Corporatename}</h1>
+            <h1 className="info-title">{entity.Corporatename}</h1>
 
-            <div className="entity-details">
+            <div className="info-details">
                 <h2>Informações</h2>
                 <div className="info-group">
                     <strong>Nome Fantasia:</strong> <p>{entity.Tradename}</p>
@@ -53,14 +53,14 @@ const EntityPage = () => {
                 </div>
             </div>
 
-            <div className="entity-address">
+            <div className="info-address">
                 <h2>Endereço</h2>
                 <p>{entity.Street}, {entity.Number}</p>
                 <p>{entity.Neighborhood} - {entity.City}, {entity.State}</p>
                 <p>CEP: {maskCEP(entity.Postalcode)}</p>
             </div>
 
-            <div className="entity-meta">
+            <div className="info-meta">
                 <h2>Dados Adicionais</h2>
                 <p><strong>Criado em:</strong> {putDateOnPattern(entity.Created)}</p>
                 <p><strong>Última atualização:</strong> {putDateOnPattern(entity.Updated)}</p>

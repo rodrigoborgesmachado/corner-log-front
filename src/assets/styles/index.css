@@ -137,6 +137,10 @@ body {
     justify-content: center;
 }
 
+.align-center{
+    align-items: center;
+}
+
 .padding-default{
     padding: 0.75rem;
 }
@@ -442,6 +446,48 @@ body {
 
 .form-register button:hover {
     background-color: var(--button-color-primary-hover);
+}
+
+.info-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-color-accent);
+    margin-bottom: var(--default-spacing);
+}
+
+.info-details,
+.info-address,
+.info-meta {
+    margin-bottom: var(--double-default-spacing);
+    padding: var(--default-spacing);
+    border-radius: var(--default-border-radius);
+    background-color: var(--secundary-color);
+}
+
+.info-details .info-group {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: var(--double-default-spacing);
+}
+
+.info-details h2, .info-address h2, .info-meta h2{
+    margin-bottom: var(--triple-default-spacing);
+}
+
+.info-address p{
+    margin: var(--default-spacing) 0px;
+}
+
+.info-meta p {
+    font-size: 14px;
+    color: var(--text-color-primary-light);
+}
+
+.info-empty {
+    text-align: center;
+    font-size: 18px;
+    color: var(--text-color-primary);
 }
 
 /* Make sure the form stays centered on smaller screens */

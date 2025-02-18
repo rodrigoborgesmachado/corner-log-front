@@ -1,0 +1,7 @@
+
+.square-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--default-spacing);
+    margin-top: var(--double-default-spacing);
+}
