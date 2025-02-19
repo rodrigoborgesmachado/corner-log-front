@@ -1,0 +1,52 @@
+/* Title inside the modal */
+.form-title {
+    text-align: center;
+    margin-bottom: var(--double-default-spacing);
+}
+
+/* Days selection container */
+.square-config-days {
+    margin-bottom: var(--default-spacing);
+}
+
+.square-config-days-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: var(--double-default-spacing);
+    gap: var(--default-spacing);
+}
+
+.square-config-day {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Time selection container */
+.square-config-time {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--default-spacing);
+}
+
+.square-config-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* Input and textarea styles */
+.square-config-input,
+.square-config-textarea {
+    padding: 8px;
+    border: 1px solid var(--panel-border-color);
+    border-radius: var(--default-border-radius);
+    margin-bottom: var(--double-default-spacing);
+}
+
+/* Form labels */
+.square-config-label {
+    font-weight: bold;
+    margin-bottom: var(--double-default-spacing);
+    display: block;
+}

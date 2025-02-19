@@ -85,9 +85,26 @@ const squareconfigurationApi = {
      */
     delete: async (itemsCode) => {
         try {
-            const response = await api.delete('/Squareconfiguration', {
-                data: { code: itemsCode },
-            });
+            const response = await api.post('/Squareconfiguration/delete',
+                { Code: itemsCode }
+            );
+            return response.data;
+        } catch (error) {
+            console.error('Error deleting item:', error);
+            throw error;
+        }
+    },
+    
+    /**
+     * Delete a item by its code.
+     * @param {string} itemsCode - The item code to delete.
+     * @returns {Promise<Object>} - The result of the deletion.
+     */
+    deleteAllLike: async (itemsCode) => {
+        try {
+            const response = await api.post('/Squareconfiguration/deleteAllLike',
+                { Code: itemsCode }
+            );
             return response.data;
         } catch (error) {
             console.error('Error deleting item:', error);

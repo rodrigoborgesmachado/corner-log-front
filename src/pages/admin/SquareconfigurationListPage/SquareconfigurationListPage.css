@@ -2,12 +2,19 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: var(--double-default-spacing);
-    margin-top: var(--double-default-spacing);
+    align-items: center;
+    gap: var(--triple-default-spacing);
+    margin-top: var(--triple-default-spacing);
     max-width: fit-content;
 }
 
 .config-card {
+    min-width: 16rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     background-color: var(--block-color-secundary);
     padding: var(--double-default-spacing);
     border-radius: var(--default-border-radius);
@@ -22,7 +29,11 @@
 
 .config-hours {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: fit-content;
     gap: var(--default-spacing);
 }
 
@@ -37,11 +48,30 @@
 }
 
 .taken {
-    background-color: var(--button-color-primary-wrong);
+    background-color: var(--button-color-primary-right);
     color: var(--text-color-secondary);
 }
 
-.available {
-    background-color: var(--button-color-primary-right);
-    color: var(--text-color-secondary);
+.hour-block h3{
+    margin-bottom: var(--default-spacing);
+}
+
+.delete-button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--button-color-primary-wrong);
+    transition: color 0.3s;
+    margin-left: var(--triple-default-spacing);
+}
+
+.delete-button:hover {
+    color: var(--button-color-primary-wrong-hover);
+}
+
+.config-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
