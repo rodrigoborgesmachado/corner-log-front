@@ -47,10 +47,26 @@
     min-width: fit-content;
 }
 
-.taken {
-    background-color: var(--button-color-primary-right);
+.hour-block-free {
+    background-color: var(--button-color-primary-right); /* Default Free */
     color: var(--text-color-secondary);
 }
+
+.hour-block-pending {
+    background-color: var(--button-color-third); /* Pending */
+    color: var(--text-color-secondary);
+}
+
+.hour-block-booked {
+    background-color: var(--button-color-secundary); /* Booked */
+    color: var(--text-color-secondary);
+}
+
+.hour-block-denied {
+    background-color: var(--button-color-primary-wrong); /* Denied */
+    color: var(--text-color-secondary);
+}
+
 
 .hour-block h3{
     margin-bottom: var(--default-spacing);

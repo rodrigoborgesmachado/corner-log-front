@@ -33,6 +33,22 @@ const squaresavingApi = {
     },
 
     /**
+     * Fetch a item by its code.
+     * @param {string} code - The item's unique code.
+     * @param {Object} params - Query parameters such as `include`.
+     * @returns {Promise<Object>} - The item data.
+     */
+    getBySquareAndDate: async (code, params = {}) => {
+        try {
+            const response = await api.get(`/Squaresaving/bysquare/${code}`, { params });
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching items by code:', error);
+            throw error;
+        }
+    },
+
+    /**
      * Create a new item.
      * @param {Object} itemsData - The items data to create.
      * @returns {Promise<Object>} - The created items data.

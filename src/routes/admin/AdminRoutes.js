@@ -31,7 +31,7 @@ const AdminRoutes = () => (
       <Route path="/Logger" element={<LoggerListPage />} />
       <Route path="/MailMessage" element={<MailmessageListPage />} />
       <Route path="/Payment" element={<PaymentListPage />} />
-      <Route path="/SquareSaving" element={<SquaresavingListPage />} />
+      <Route path="/Reservas" element={<SquaresavingListPage />} />
       <Route path="/Usuarios" element={<UserListPage />} />
       <Route path="/UserEntity" element={<UserentityListPage />} />
       <Route path="/*" element={<DashboardPage />} />

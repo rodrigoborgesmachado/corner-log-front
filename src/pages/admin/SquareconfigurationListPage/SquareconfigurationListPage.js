@@ -173,7 +173,7 @@ const SquareconfigurationListPage = () => {
                                 <div className="config-hours">
                                     {dayConfigs.length > 0 ? (
                                         dayConfigs.map(config => (
-                                            <div key={config.Code} className="hour-block taken">
+                                            <div key={config.Code} className="hour-block hour-block-free">
                                                 <div className="config-header">
                                                     <h3>{config.Starttime} - {config.Endtime}</h3>
                                                     <button 

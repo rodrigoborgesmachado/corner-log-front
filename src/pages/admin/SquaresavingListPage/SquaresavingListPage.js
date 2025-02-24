@@ -1,119 +1,163 @@
-import React, { useState, useEffect } from 'react';
-import './SquaresavingListPage.css';
-import squaresavingApi from '../../../services/apiServices/squaresavingApi';
-import { setLoading } from '../../../services/redux/loadingSlice';
-import { useDispatch } from 'react-redux';
-import configService from '../../../services/configService';
-import Pagination from '../../../components/common/Pagination/Pagination'; 
-import { toast } from 'react-toastify';
-import { putDateOnPattern } from '../../../utils/functions';
-import FilterComponent from '../../../components/admin/FilterComponent/FilterComponent';
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { setLoading } from "../../../services/redux/loadingSlice";
+import squareApi from "../../../services/apiServices/squareApi";
+import squareConfigApi from "../../../services/apiServices/squareconfigurationApi";
+import squareSavingApi from "../../../services/apiServices/squaresavingApi";
+import "./SquaresavingListPage.css";
+import { format, addDays, subDays } from "date-fns";
+
+const daysOfWeek = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 
 const SquaresavingListPage = () => {
     const dispatch = useDispatch();
-    const [items, setItems] = useState([]);
-    const [page, setPage] = useState(1);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalItens, setTotalItens] = useState(0);
-    const quantity = configService.getDefaultNumberOfItemsTable(); 
-    const orderBy = "Id:Desc";
+    const [squares, setSquares] = useState([]);
+    const [selectedSquare, setSelectedSquare] = useState(null);
+    const [configurations, setConfigurations] = useState([]);
+    const [savings, setSavings] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     useEffect(() => {
-        const fetchItems = async () => {
+        const fetchSquares = async () => {
             dispatch(setLoading(true));
             try {
-                const response = await squaresavingApi.getPaginated({ page, quantity, orderBy, term: searchTerm, startDate, endDate, include: "" });
-
-                setItems(response.Results);
-                setTotalPages(response.TotalPages);
-                setTotalItens(response.TotalCount);
-            } catch (error) {
-                toast.error('Erro ao buscar os itens.');
+                const response = await squareApi.getAll();
+                setSquares(response);
+            } catch (err) {
+                toast.error("Erro ao carregar as quadras.");
             } finally {
                 dispatch(setLoading(false));
             }
         };
-        fetchItems();
-    }, [page, quantity, searchTerm, startDate, endDate, dispatch]);
 
-    const handlePageChange = (newPage) => {
-        if (newPage > 0 && newPage <= totalPages) {
-            setPage(newPage);
-        }
-    };
+        fetchSquares();
+    }, [dispatch]);
 
-    const search = ({term, startDate, endDate} = {}) => {
-        setSearchTerm(term);
-        setStartDate(startDate);
-        setEndDate(endDate);
-    }
-
-    const exportFunction = async ({term}) => {
+    const fetchConfigurationAndSavings = async (squareCode, date) => {
+        dispatch(setLoading(true));
         try {
-            dispatch(setLoading(true));
-            const response = await squaresavingApi.export({ term: term, startDate, endDate });
-
-            if (response.Status === 200 && response.Object) {
-                window.open(response.Object, "_blank");
-                toast.success('Relatório gerado com sucesso!');
-            } else {
-                toast.error('Erro ao gerar o relatório');
-            }
-        } catch (error) {
-            toast.error('Erro ao gerar o relatório');
-        }
-        finally{
+            const formattedDate = format(date, "yyyy-MM-dd");
+            const dayOfWeek = date.getDay() + 1; // Convert JavaScript 0-6 (Sunday-Saturday) to 1-7
+    
+            const configResponse = await squareConfigApi.getBySquareCode(squareCode);
+            const filteredConfig = configResponse.filter(config => config.Dayofweek === dayOfWeek);
+    
+            const savingsResponse = await squareSavingApi.getBySquareAndDate(squareCode, {
+                startDate: formattedDate,
+                endDate: formattedDate
+            });
+    
+            setConfigurations(filteredConfig);
+            setSavings(savingsResponse);
+        } catch (err) {
+            toast.error("Erro ao carregar os dados.");
+            setConfigurations([]);
+            setSavings([]);
+        } finally {
             dispatch(setLoading(false));
         }
     };
 
+    const handleSquareChange = (event) => {
+        const squareCode = event.target.value;
+        setSelectedSquare(squareCode);
+
+        if (squareCode) {
+            fetchConfigurationAndSavings(squareCode, selectedDate);
+        }
+    };
+
+    const handleDateChange = (direction) => {
+        const newDate = direction === "next" ? addDays(selectedDate, 1) : subDays(selectedDate, 1);
+        setSelectedDate(newDate);
+
+        if (selectedSquare) {
+            fetchConfigurationAndSavings(selectedSquare, newDate);
+        }
+    };
+
     return (
-    <div className="container-admin-page">
-        <h1>Lista dos Itens</h1>
-        <div className='container-admin-page-filters div-with-border'>
-            <h3>Filtros</h3>
-            <FilterComponent placeHolder={'Descrição'} showTermFilter={true} showStartDate={true} showEndDate={true} submitFilter={search} exportFunction={exportFunction}/>
+        <div className="container-admin-page div-with-border">
+            <h1 className="entity-title">Reservas de Horário</h1>
+
+            <div className="form-group">
+                <label>Selecione a Quadra:</label>
+                <select className="main-input" onChange={handleSquareChange} value={selectedSquare || ""}>
+                    <option value="">Escolha uma quadra</option>
+                    {squares.map((square) => (
+                        <option key={square.Code} value={square.Code}>
+                            {square.Name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            {selectedSquare && (
+                <div className="date-navigation">
+                    <button className="main-button" onClick={() => handleDateChange("prev")}>← Dia Anterior</button>
+                    <h2>{format(selectedDate, "dd/MM/yyyy")} - {daysOfWeek[selectedDate.getDay()]}</h2>
+                    <button className="main-button" onClick={() => handleDateChange("next")}>Próximo Dia →</button>
+                </div>
+            )}
+
+            <div className="square-configurations-items">
+                {selectedSquare && (
+                    <div className="config-card">
+                        <div className="config-hours-saving">
+                            {configurations.length > 0 ? (
+                                configurations.map(config => {
+                                    const saving = savings.find(saving => saving.Squareconfigurationcode === config.Code);
+                                    let statusClass = "hour-block-free"; // Default: Free
+
+                                    if (saving) {
+                                        switch (saving.Status) {
+                                            case 0: // Pending
+                                                statusClass = "hour-block-pending";
+                                                break;
+                                            case 1: // Accepted (Booked)
+                                                statusClass = "hour-block-booked";
+                                                break;
+                                            case 2: // Denied
+                                                statusClass = "hour-block-denied";
+                                                break;
+                                            default:
+                                                statusClass = "hour-block-free";
+                                        }
+                                    }
+
+                                    return (
+                                        <div key={config.Code} className={`hour-block ${statusClass}`}>
+                                            <h3>{config.Starttime} - {config.Endtime}</h3>
+                                            <label>Valor: R$ {config.Price}</label>
+                                            <label>{config.Observation || "Sem observação"}</label>
+                                            <span className="status">
+                                                {saving ? (
+                                                    saving.Status === 0 ? "Pendente" : 
+                                                    saving.Status === 1 ? "Reservado" : 
+                                                    "Negado"
+                                                ) : "Disponível"}
+                                            </span>
+                                            {
+                                                saving && 
+                                                <span>
+                                                    Responsável: {saving.Responsiblename}
+                                                </span>
+                                            }
+                                        </div>
+                                    );
+                                })
+                            ) : (
+                                <div className="hour-block unavailable">
+                                    <label>Nenhum horário configurado</label>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
-        <div className='container-admin-page-table div-with-border'>
-            <table className="admin-table">
-                <thead>
-                    <tr>
-                        <th>Code</th>
-                        <th>Created</th>
-                        <th>Updated</th>
-                        <th>IsActive</th>
-                        <th>IsDeleted</th>
-                        <th>UserCode</th>
-                        <th>SquareCode</th>
-                        <th>ReservationDate</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {items.map((item) => (
-                    <tr key={item.Code}>
-                        <td data-label='Code'><span>{item.Code}</span></td>
-                        <td data-label='Created'><span>{putDateOnPattern(item.Created)}</span></td>
-                        <td data-label='Updated'><span>{putDateOnPattern(item.Updated)}</span></td>
-                        <td data-label='IsActive'><span>{item.IsActive}</span></td>
-                        <td data-label='IsDeleted'><span>{item.IsDeleted}</span></td>
-                        <td data-label='UserCode'><span>{item.UserCode}</span></td>
-                        <td data-label='SquareCode'><span>{item.SquareCode}</span></td>
-                        <td data-label='ReservationDate'><span>{putDateOnPattern(item.ReservationDate)}</span></td>
-                        <td data-label='Status'><span>{item.Status}</span></td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            <sub>Total de Itens: {totalItens}</sub>
-            <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
-        </div>
-    </div>
     );
 };
 
 export default SquaresavingListPage;
-
