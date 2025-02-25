@@ -7,6 +7,10 @@ import squareConfigApi from "../../../services/apiServices/squareconfigurationAp
 import squareSavingApi from "../../../services/apiServices/squaresavingApi";
 import "./SquaresavingListPage.css";
 import { format, addDays, subDays } from "date-fns";
+import { maskPhone } from "../../../utils/masks";
+import ConfirmModal from "../../../components/common/Modals/ConfirmModal/ConfirmModal";
+import AddSavingHourModal from "../../../components/admin/Modals/AddSavingHourModal/AddSavingHourModal";
+import ViewSavingDetailsModal from "../../../components/admin/Modals/ViewSavingDetailsModal/ViewSavingDetailsModal";
 
 const daysOfWeek = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 
@@ -17,6 +21,21 @@ const SquaresavingListPage = () => {
     const [configurations, setConfigurations] = useState([]);
     const [savings, setSavings] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [isConfirmOpen, setConfirmOpen] = useState(false);
+    const [isSavingModalOpen, setSavingModalOpen] = useState(false);
+    const [selectedConfig, setSelectedConfig] = useState(null);
+    const [selectedSaving, setSelectedSaving] = useState(null);
+    const [confirmMessage, setConfirmMessage] = useState("");
+    const [isViewModalOpen, setViewModalOpen] = useState(false);
+
+    const openViewModal = () => {
+        setViewModalOpen(true);
+    };
+
+    const closeViewModal = () => {
+        
+        setViewModalOpen(false);
+    };
 
     useEffect(() => {
         const fetchSquares = async () => {
@@ -39,15 +58,15 @@ const SquaresavingListPage = () => {
         try {
             const formattedDate = format(date, "yyyy-MM-dd");
             const dayOfWeek = date.getDay() + 1; // Convert JavaScript 0-6 (Sunday-Saturday) to 1-7
-    
+
             const configResponse = await squareConfigApi.getBySquareCode(squareCode);
             const filteredConfig = configResponse.filter(config => config.Dayofweek === dayOfWeek);
-    
+
             const savingsResponse = await squareSavingApi.getBySquareAndDate(squareCode, {
                 startDate: formattedDate,
                 endDate: formattedDate
             });
-    
+
             setConfigurations(filteredConfig);
             setSavings(savingsResponse);
         } catch (err) {
@@ -77,8 +96,75 @@ const SquaresavingListPage = () => {
         }
     };
 
+    const handleBoxClick = (config) => {
+        const saving = savings.find(saving => saving.Squareconfigurationcode === config.Code);
+        setSelectedConfig(config);
+        setSelectedSaving(saving);
+
+        if (saving) {
+            if (saving.Status === 1) {
+                openViewModal();
+            }
+            else{
+                setConfirmMessage("Deseja confirmar a reserva? Caso não, ela será cancelada!");
+                setConfirmOpen(true);
+            }
+        } else {
+            setConfirmMessage("Deseja reservar um horário?");
+            setConfirmOpen(true);
+        }
+    };
+
+    const handleConfirmYes = async () => {
+        setConfirmOpen(false);
+
+        if (selectedSaving) {
+            if (selectedSaving.Status === 0) { 
+                // Status is "Pending", update it to "Accepted"
+                try {
+                    dispatch(setLoading(true));
+                    await squareSavingApi.updateStatus(selectedSaving.Code, 1); // 1 = Accepted
+                    toast.success("Reserva confirmada com sucesso!");
+                    fetchConfigurationAndSavings(selectedSquare, selectedDate);
+                } catch (error) {
+                    toast.error("Erro ao confirmar a reserva.");
+                } finally {
+                    dispatch(setLoading(false));
+                }
+            }
+        } else {
+            // If there is no saving, open the modal to create one
+            setSavingModalOpen(true);
+        }
+    };
+
     return (
         <div className="container-admin-page div-with-border">
+            <ConfirmModal 
+                isOpen={isConfirmOpen} 
+                title="Confirmação"
+                message={confirmMessage}
+                onYes={handleConfirmYes} 
+                onNo={() => setConfirmOpen(false)} 
+            />
+
+            <AddSavingHourModal 
+                isOpen={isSavingModalOpen} 
+                onClose={() => setSavingModalOpen(false)} 
+                onSubmit={() => fetchConfigurationAndSavings(selectedSquare, selectedDate)}
+                configuration={selectedConfig}
+            />
+
+            <ViewSavingDetailsModal 
+                isOpen={isViewModalOpen} 
+                onClose={closeViewModal} 
+                saving={selectedSaving}
+                onDeleteSuccess={() => {
+                    closeViewModal();
+                    fetchConfigurationAndSavings(selectedSquare, selectedDate);
+                }}
+            />
+
             <h1 className="entity-title">Reservas de Horário</h1>
 
             <div className="form-group">
@@ -127,21 +213,27 @@ const SquaresavingListPage = () => {
                                     }
 
                                     return (
-                                        <div key={config.Code} className={`hour-block ${statusClass}`}>
+                                        <div 
+                                            key={config.Code} 
+                                            className={`clickable hour-block ${statusClass}`} 
+                                            onClick={() => handleBoxClick(config)}
+                                        >
                                             <h3>{config.Starttime} - {config.Endtime}</h3>
                                             <label>Valor: R$ {config.Price}</label>
                                             <label>{config.Observation || "Sem observação"}</label>
                                             <span className="status">
-                                                {saving ? (
-                                                    saving.Status === 0 ? "Pendente" : 
-                                                    saving.Status === 1 ? "Reservado" : 
-                                                    "Negado"
-                                                ) : "Disponível"}
+                                                Status: {saving ? (saving.Status === 0 ? "Pendente" : saving.Status === 1 ? "Reservado" : "Negado") : "Disponível"}
                                             </span>
                                             {
                                                 saving && 
                                                 <span>
                                                     Responsável: {saving.Responsiblename}
+                                                </span>
+                                            }
+                                            {
+                                                saving && 
+                                                <span>
+                                                    Telefone: {maskPhone(saving.Responsiblephone)}
                                                 </span>
                                             }
                                         </div>

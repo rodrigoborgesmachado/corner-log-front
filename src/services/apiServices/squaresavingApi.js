@@ -79,15 +79,28 @@ const squaresavingApi = {
     },
 
     /**
+     * Update an existing items.
+     * @param {Object} itemsData - The items data to update.
+     * @returns {Promise<Object>} - The updated items data.
+     */
+    updateStatus: async (code, status) => {
+        try {
+            const response = await api.put(`/SquareSaving/updateStatus/${code}?newStatus=${status}`, {});
+            return response.data;
+        } catch (error) {
+            console.error('Error updating items:', error);
+            throw error;
+        }
+    },
+
+    /**
      * Delete a item by its code.
-     * @param {string} itemsCode - The item code to delete.
+     * @param {string} code - The item code to delete.
      * @returns {Promise<Object>} - The result of the deletion.
      */
-    delete: async (itemsCode) => {
+    delete: async (code) => {
         try {
-            const response = await api.delete('/Squaresaving', {
-                data: { code: itemsCode },
-            });
+            const response = await api.get('/Squaresaving/delete/' + code);
             return response.data;
         } catch (error) {
             console.error('Error deleting item:', error);

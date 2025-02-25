@@ -169,6 +169,8 @@ body {
 .option-link {
     position: relative;
     cursor: pointer;
+    text-decoration: none;
+    color: var(--text-color-secondary);
 }
 
 .option-link::after {
@@ -489,6 +491,10 @@ body {
     text-align: center;
     font-size: 18px;
     color: var(--text-color-primary);
+}
+
+.danger{
+    color: var(--button-color-primary-wrong);
 }
 
 /* Make sure the form stays centered on smaller screens */
