@@ -15,6 +15,7 @@ import BuildingIcon from '../../icons/BuildingIcon';
 import FootballFieldIcon from '../../icons/FootballFieldIcon';
 import ClockIcon from '../../icons/ClockIcon';
 import CalendarIcon from '../../icons/CalendarIcon';
+import OrderIcon from '../../icons/OrderIcon';
 
 const AdminSidebar = () => {
   const location = useLocation();
@@ -40,6 +41,7 @@ const AdminSidebar = () => {
         {isAdmin && <a href="/Quadras" className={pathSegments[0] === 'Quadras' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><FootballFieldIcon color='white'/>Quadras</a>}
         {isAdmin && <a href="/Horarios" className={pathSegments[0] === 'Horários' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><ClockIcon color='white'/>Configuração Horários</a>}
         {isAdmin && <a href="/Reservas" className={pathSegments[0] === 'Reservas' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><CalendarIcon color='white'/>Reservas</a>}
+        {isAdmin && <a href="/Produtos" className={pathSegments[0] === 'Produtos' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><OrderIcon color='white'/>Produtos</a>}
         {isAdmin && <a href="/CashRegister" className={pathSegments[0] === 'CashRegister' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>CashRegister</a>}
         {isAdmin && <a href="/Logger" className={pathSegments[0] === 'Logger' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>Logger</a>}
         {isAdmin && <a href="/MailMessage" className={pathSegments[0] === 'MailMessage' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>MailMessage</a>}

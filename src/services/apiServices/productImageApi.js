@@ -1,6 +1,6 @@
 import api from './serviceApi'; 
 
-const squaresavingApi = {
+const productImageApi = {
     /**
      * Fetch all with optional filters.
      * @param {Object} params - Query parameters such as `include`.
@@ -8,7 +8,7 @@ const squaresavingApi = {
      */
     getAll: async (params = {}) => {
         try {
-            const response = await api.get('/Squaresaving', { params });
+            const response = await api.get('/productimage', { params });
             return response.data;
         } catch (error) {
             console.error('Error fetching all items es:', error);
@@ -24,23 +24,7 @@ const squaresavingApi = {
      */
     getByCode: async (code, params = {}) => {
         try {
-            const response = await api.get(`/Squaresaving/${code}`, { params });
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching items by code:', error);
-            throw error;
-        }
-    },
-
-    /**
-     * Fetch a item by its code.
-     * @param {string} code - The item's unique code.
-     * @param {Object} params - Query parameters such as `include`.
-     * @returns {Promise<Object>} - The item data.
-     */
-    getBySquareAndDate: async (code, params = {}) => {
-        try {
-            const response = await api.get(`/Squaresaving/bysquare/${code}`, { params });
+            const response = await api.get(`/productimage/${code}`, { params });
             return response.data;
         } catch (error) {
             console.error('Error fetching items by code:', error);
@@ -55,7 +39,7 @@ const squaresavingApi = {
      */
     create: async (itemsData) => {
         try {
-            const response = await api.post('/Squaresaving', itemsData);
+            const response = await api.post('/productimage', itemsData);
             return response.data;
         } catch (error) {
             console.error('Error creating items:', error);
@@ -68,9 +52,9 @@ const squaresavingApi = {
      * @param {Object} itemsData - The items data to update.
      * @returns {Promise<Object>} - The updated items data.
      */
-    update: async (itemsData) => {
+    update: async (code, itemsData) => {
         try {
-            const response = await api.put('/Squaresaving', itemsData);
+            const response = await api.put('/productimage?code=' + code, itemsData);
             return response.data;
         } catch (error) {
             console.error('Error updating items :', error);
@@ -79,28 +63,15 @@ const squaresavingApi = {
     },
 
     /**
-     * Update an existing items.
-     * @param {Object} itemsData - The items data to update.
-     * @returns {Promise<Object>} - The updated items data.
-     */
-    updateStatus: async (code, status) => {
-        try {
-            const response = await api.put(`/SquareSaving/updateStatus/${code}?newStatus=${status}`, {});
-            return response.data;
-        } catch (error) {
-            console.error('Error updating items:', error);
-            throw error;
-        }
-    },
-
-    /**
      * Delete a item by its code.
-     * @param {string} code - The item code to delete.
+     * @param {string} itemsCode - The item code to delete.
      * @returns {Promise<Object>} - The result of the deletion.
      */
-    delete: async (code) => {
+    delete: async (itemsCode) => {
         try {
-            const response = await api.get('/Squaresaving/delete/' + code);
+            const response = await api.post('/productimage/delete',
+                { Code: itemsCode }
+            );
             return response.data;
         } catch (error) {
             console.error('Error deleting item:', error);
@@ -115,7 +86,7 @@ const squaresavingApi = {
      */
     export: async (params) => {
         try {
-            const response = await api.get('/Squaresaving/export', {
+            const response = await api.get('/productimage/export', {
                 params,
 
             });
@@ -133,7 +104,7 @@ const squaresavingApi = {
      */
     getPaginated: async (params) => {
         try {
-            const response = await api.get('/Squaresaving/pagged', { params });
+            const response = await api.get('/productimage/pagged', { params });
             return response.data;
         } catch (error) {
             console.error('Error fetching paginated items:', error);
@@ -142,4 +113,4 @@ const squaresavingApi = {
     },
 };
 
-export default squaresavingApi;
+export default productImageApi;

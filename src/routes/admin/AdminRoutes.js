@@ -15,6 +15,8 @@ import UserentityListPage from '../../pages/admin/UserentityListPage/UserentityL
 import EntityCreatePage from '../../pages/admin/EntityCreatePage/EntityCreatePage';
 import EntityPage from '../../pages/admin/EntityPage/EntityPage';
 import SquarePage from '../../pages/admin/SquarePage/SquarePage';
+import ProductListPage from '../../pages/admin/ProductListPage/ProductListPage';
+import ProductPage from '../../pages/admin/ProductPage/ProductPage';
 
 const AdminRoutes = () => (
   <AdminLayout>
@@ -28,6 +30,8 @@ const AdminRoutes = () => (
       <Route path="/Quadras" element={<SquareListPage />} />
       <Route path="/Quadras/:code" element={<SquarePage />} />
       <Route path="/Horarios" element={<SquareconfigurationListPage />} />
+      <Route path="/Produtos" element={<ProductListPage />} />
+      <Route path="/Produtos/:code" element={<ProductPage />} />
       <Route path="/Logger" element={<LoggerListPage />} />
       <Route path="/MailMessage" element={<MailmessageListPage />} />
       <Route path="/Payment" element={<PaymentListPage />} />

@@ -1,4 +1,4 @@
-import api from './serviceApi'; // Import the axios instance
+import api from './serviceApi'; 
 
 const squareImageApi = {
     /**

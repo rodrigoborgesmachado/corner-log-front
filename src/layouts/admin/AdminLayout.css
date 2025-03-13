@@ -94,6 +94,10 @@
     background-color: var(--button-color-primary-hover); 
 }
 
+.admin-table img{
+    max-width: 4rem;
+}
+
 .container-admin-page {
     margin: 1rem;
     padding: 1rem;

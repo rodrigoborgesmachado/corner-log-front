@@ -106,7 +106,7 @@ const SquareListPage = () => {
             setRefresh((prev) => !prev);
         }
         catch(error){
-            toast.error('Error :' + error);
+            toast.error('Error: ' + error);
         }
         finally{
             dispatch(setLoading(false));
@@ -122,7 +122,7 @@ const SquareListPage = () => {
             setRefresh((prev) => !prev);
         }
         catch(error){
-            toast.error('Error :' + error);
+            toast.error('Error: ' + error);
         }
         finally{
             dispatch(setLoading(false));
