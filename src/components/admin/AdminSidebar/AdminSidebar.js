@@ -10,7 +10,7 @@ import LogoffIcon from '../../icons/LogoffIcon';
 import { useLocation } from 'react-router-dom';
 import BasketIcon from '../../icons/BasketIcon';
 import UserIcon from '../../icons/UserIcon';
-import logo from '../../../assets/images/logo_orange_black.png';
+import logo from '../../../assets/images/logo_orange_white.png';
 import BuildingIcon from '../../icons/BuildingIcon';
 import FootballFieldIcon from '../../icons/FootballFieldIcon';
 import ClockIcon from '../../icons/ClockIcon';
