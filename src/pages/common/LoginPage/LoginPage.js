@@ -42,6 +42,7 @@ const LoginPage = () => {
                         access_token: response.access_token,
                         name: response.name,
                         code: response.id,
+                        entitycode: response.entitycode
                     })
                 );
             }

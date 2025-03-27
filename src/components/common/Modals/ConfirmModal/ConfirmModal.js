@@ -3,7 +3,7 @@
 import React from 'react';
 import './ConfirmModal.css'; // Create a CSS file for modal styling
 
-const ConfirmModal = ({ isOpen, title, message, onYes, onNo, confirmData, yesLabel = "Yes", noLabel = "No" }) => {
+const ConfirmModal = ({ isOpen, title, message, onYes, onNo, confirmData, yesLabel = "Sim", noLabel = "Não" }) => {
   if (!isOpen) return null;
 
   return (

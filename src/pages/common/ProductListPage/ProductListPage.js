@@ -3,7 +3,7 @@ import "./ProductListPage.css";
 import productApi from "../../../services/apiServices/productApi";
 import entityApi from "../../../services/apiServices/entityApi";
 import { setLoading } from "../../../services/redux/loadingSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import configService from "../../../services/configService";
 import Pagination from "../../../components/common/Pagination/Pagination";
 import { toast } from "react-toastify";
@@ -15,11 +15,13 @@ import { useNavigate } from "react-router-dom";
 import EyeIcon from "../../../components/icons/EyeIcon";
 
 const ProductListPage = () => {
+    const isAdmin = useSelector((state) => state.auth.isAdmin);
+    const entityCode = useSelector((state) => state.auth.EntityCode);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [products, setProducts] = useState([]);
     const [entities, setEntities] = useState([]);
-    const [selectedEntity, setSelectedEntity] = useState(null);
+    const [selectedEntity, setSelectedEntity] = useState(isAdmin ? null : entityCode);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
@@ -50,11 +52,32 @@ const ProductListPage = () => {
     }
 
     useEffect(() => {
+        const fetchProducts = async (entityCode) => {
+            dispatch(setLoading(true));
+            try {
+                const response = await productApi.getPaginated({ entityCode, page: 1, quantity, orderBy, include: 'ProductImage' });
+                setProducts(response.Results || []);
+                setTotalPages(response.TotalPages);
+                setTotalItems(response.TotalCount);
+                setPage(1);
+            } catch (err) {
+                toast.error("Erro ao carregar os produtos.");
+                setProducts([]);
+            } finally {
+                dispatch(setLoading(false));
+            }
+        };
+
         const fetchEntities = async () => {
             dispatch(setLoading(true));
             try {
-                const response = await entityApi.getAll();
-                setEntities(response);
+                if(isAdmin)
+                {
+                    const response = await entityApi.getAll();
+                    setEntities(response);
+                }
+                else
+                    fetchProducts(entityCode);
             } catch (err) {
                 toast.error("Erro ao carregar as entidades.");
             } finally {
@@ -63,7 +86,7 @@ const ProductListPage = () => {
         };
 
         fetchEntities();
-    }, [refresh, dispatch]);
+    }, [refresh, dispatch, entityCode, isAdmin, quantity]);
 
     const fetchProductsByEntity = async (entityCode, term = "", newPage = 1) => {
         dispatch(setLoading(true));
@@ -108,7 +131,7 @@ const ProductListPage = () => {
             dispatch(setLoading(true));
             var response = await productApi.create(product);
 
-            toast.success(response.Name + ' criado com sucesso!');
+            toast.success(response.Description + ' criado com sucesso!');
             fetchProductsByEntity(selectedEntity);
         }
         catch(error){
@@ -151,49 +174,64 @@ const ProductListPage = () => {
                     showTermFilter={true}
                     submitFilter={handleSearch}
                     entityList={entities}
-                    showEntityFilter={true}
+                    showEntityFilter={isAdmin}
                 />
             </div>
 
-            {selectedEntity && (
-                <div className="container-admin-page-table div-with-border">
-                    <table className="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Última Atualização</th>
-                                <th>Preço</th>
-                                <th>Estoque</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {products.length > 0 ? (
-                                products.map((product) => (
-                                    <tr key={product.Code}>
-                                        <td data-label="Nome">{product.Description}</td>
-                                        <td data-label="Atualização">{putDateOnPattern(product.Updated)}</td>
-                                        <td data-label="Preço">R$ {product.Price.toFixed(2)}</td>
-                                        <td data-label="Estoque">{product.Quantitystock}</td>
-                                        <td className='flex-row align-end gap-default'>
-                                            <span className='option-link' onClick={() => openEditModal(product.Code) }><EditIcon/></span>
-                                            <span className='option-link' onClick={() => navigate('' + product.Code)}><EyeIcon/></span>
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="3" className="no-results">
-                                        Nenhum produto encontrado.
+            <div className="container-admin-page-table div-with-border">
+                <table className="admin-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Nome</th>
+                            <th>Última Atualização</th>
+                            <th>Preço</th>
+                            <th>Estoque</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {products.length > 0 ? (
+                            products.map((product) => (
+                                <tr key={product.Code}>
+                                    <td data-label="">
+                                        <div className="gap-default align-center">
+                                            {product.ProductImage?.length > 0 && product.ProductImage[0].Url && (
+                                                <img
+                                                    src={product.ProductImage[0].Url}
+                                                    alt={product.Description}
+                                                    style={{
+                                                        width: '40px',
+                                                        height: '40px',
+                                                        objectFit: 'cover',
+                                                        borderRadius: '4px'
+                                                    }}
+                                                />
+                                            )}
+                                        </div>
+                                    </td>
+                                    <td data-label="Nome">{product.Description}</td>
+                                    <td data-label="Atualização">{putDateOnPattern(product.Updated)}</td>
+                                    <td data-label="Preço">R$ {product.Price.toFixed(2)}</td>
+                                    <td data-label="Estoque">{product.Quantitystock}</td>
+                                    <td className='align-end gap-default'>
+                                        <span className='option-link' onClick={() => openEditModal(product.Code) }><EditIcon/></span>
+                                        <span className='option-link' onClick={() => navigate('' + product.Code)}><EyeIcon/></span>
                                     </td>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
-                    <sub>Total de Itens: {totalItems}</sub>
-                    <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
-                </div>
-            )}
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="3" className="no-results">
+                                    Nenhum produto encontrado.
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+                <sub>Total de Itens: {totalItems}</sub>
+                <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
+            </div>
         </div>
     );
 };

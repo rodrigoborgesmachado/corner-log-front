@@ -1,20 +1,19 @@
 import './AddSquareModal.css';
 import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLoading } from '../../../services/redux/loadingSlice';
 import squareApi from '../../../services/apiServices/squareApi';
-import entityApi from '../../../services/apiServices/entityApi';
 import { toast } from 'react-toastify';
 
 const AddSquareModal = ({ isOpen, onClose, onSubmit, codeSquare = null }) => {
+    const entitycode = useSelector((state) => state.auth.entitycode);
     const dispatch = useDispatch();
     const [square, setSquare] = useState({
         Images: [],
-        Entitycode: '',
+        Entitycode: entitycode,
         Name: '',
         Observation: ''
     });
-    const [entityList, setEntityList] = useState([]);
     const fileInputRef = useRef(null);
 
     useEffect(() => {
@@ -27,22 +26,12 @@ const AddSquareModal = ({ isOpen, onClose, onSubmit, codeSquare = null }) => {
             }
         };
 
-        const fetchEntity = async () => {
-            try {
-                const response = await entityApi.getAll();
-                setEntityList(response);
-            } catch (error) {
-                toast.error('Erro ao carregar as empresas!');
-            }
-        };
-
         const fetchData = async () => {
             try {
                 dispatch(setLoading(true));
                 if (codeSquare) {
                     await fetchSquare();
                 }
-                await fetchEntity();
             } finally {
                 dispatch(setLoading(false));
             }
@@ -100,7 +89,7 @@ const AddSquareModal = ({ isOpen, onClose, onSubmit, codeSquare = null }) => {
     const clear = () => {
         setSquare({
             Images: [],
-            Entitycode: '',
+            Entitycode: entitycode,
             Name: '',
             Observation: ''
         });
@@ -133,28 +122,6 @@ const AddSquareModal = ({ isOpen, onClose, onSubmit, codeSquare = null }) => {
                                 onChange={handleInputChange}
                                 required
                             />
-                        </div>
-                    </div>
-                    <div className='form-group-register'>
-                        <div className="form-group-register form-group-inside">
-                            <div className='add-option-by-side'>
-                                <label>
-                                    Empresa:
-                                </label>
-                            </div>
-                            <select
-                                name="Entitycode"
-                                value={square.Entitycode}
-                                onChange={handleInputChange}
-                                required
-                            >
-                                <option value="">Selecione a Empresa</option>
-                                {entityList.map((entity) => (
-                                    <option key={entity.Code} value={entity.Code}>
-                                        {entity.Tradename}
-                                    </option>
-                                ))}
-                            </select>
                         </div>
                     </div>
 

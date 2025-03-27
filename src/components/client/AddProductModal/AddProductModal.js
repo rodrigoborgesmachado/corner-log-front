@@ -1,22 +1,21 @@
 import './AddProductModal.css';
 import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLoading } from '../../../services/redux/loadingSlice';
 import productApi from '../../../services/apiServices/productApi';
-import entityApi from '../../../services/apiServices/entityApi';
 import { toast } from 'react-toastify';
 
 const AddProductModal = ({ isOpen, onClose, onSubmit, codeProduct = null }) => {
+    const entityCode = useSelector((state) => state.auth.EntityCode);
     const dispatch = useDispatch();
     const [product, setProduct] = useState({
         Images: [],
-        Entitycode: '',
+        Entitycode: entityCode,
         Description: '',
         Quantitystock: '',
         Price: '',
         Observation: '',
     });
-    const [entityList, setEntityList] = useState([]);
     const fileInputRef = useRef(null);
 
     useEffect(() => {
@@ -29,22 +28,12 @@ const AddProductModal = ({ isOpen, onClose, onSubmit, codeProduct = null }) => {
             }
         };
 
-        const fetchEntity = async () => {
-            try {
-                const response = await entityApi.getAll();
-                setEntityList(response);
-            } catch (error) {
-                toast.error('Erro ao carregar as empresas!');
-            }
-        };
-
         const fetchData = async () => {
             try {
                 dispatch(setLoading(true));
                 if (codeProduct) {
                     await fetchProduct();
                 }
-                await fetchEntity();
             } finally {
                 dispatch(setLoading(false));
             }
@@ -101,7 +90,7 @@ const AddProductModal = ({ isOpen, onClose, onSubmit, codeProduct = null }) => {
     const clear = () => {
         setProduct({
             Images: [],
-            Entitycode: '',
+            Entitycode: entityCode,
             Description: '',
             Quantitystock: '',
             Price: '',
@@ -159,25 +148,6 @@ const AddProductModal = ({ isOpen, onClose, onSubmit, codeProduct = null }) => {
                                 step="0.01"
                                 required
                             />
-                        </div>
-                    </div>
-
-                    <div className='form-group-register'>
-                        <div className="form-group-register form-group-inside">
-                            <label>Empresa:</label>
-                            <select
-                                name="Entitycode"
-                                value={product.Entitycode}
-                                onChange={handleInputChange}
-                                required
-                            >
-                                <option value="">Selecione a Empresa</option>
-                                {entityList.map((entity) => (
-                                    <option key={entity.Code} value={entity.Code}>
-                                        {entity.Tradename}
-                                    </option>
-                                ))}
-                            </select>
                         </div>
                     </div>
 

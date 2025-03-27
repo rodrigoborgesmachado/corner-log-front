@@ -147,7 +147,7 @@ const SquareconfigurationListPage = () => {
 
             <div className="title-with-options">
                 <h1 className="entity-title">Configuração de Quadra</h1>
-                <button className="main-button" onClick={openRegisterModal}>Adicionar Horário</button>
+                <button className="main-button" disabled={!selectedSquare} onClick={openRegisterModal}>Adicionar Horário</button>
             </div>
 
             <div className="form-group">

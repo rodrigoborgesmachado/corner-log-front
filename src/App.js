@@ -7,10 +7,12 @@ import AdminRoutes from './routes/admin/AdminRoutes';
 import LoginPage from './pages/common/LoginPage/LoginPage';
 import ConfirmUserPage from './pages/common/ConfirmUserPage/ConfirmUserPage';
 import RecoverPasswordPage from './pages/common/RecoverPasswordPage/RecoverPasswordPage';
+import ClientRoutes from './routes/clients/ClientRoutes';
 
 function App() {
   const isLoading = useSelector((state) => state.loading.isLoading);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAdmin = useSelector((state) => state.auth.isAdmin);
 
   return (
     <Router>
@@ -27,7 +29,10 @@ function App() {
               <Route path="/recover" element={<ConfirmUserPage isRecover={true}/>} />
             </>
             :
+            isAdmin ?
             <Route path="/*" element={<AdminRoutes />} />
+            :
+            <Route path='/*' element={<ClientRoutes />} />
           }
           </Routes>
       </div>

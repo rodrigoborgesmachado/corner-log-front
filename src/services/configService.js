@@ -12,6 +12,10 @@ class ConfigService {
   getDefaultNumberOfItemsTable() {
     return this.config.DefaultNumberOfItemsTable;
   }
+
+  getAdminEntityCode() {
+    return this.config.SunSaleCode;
+  }
 }
 
 var configService =  new ConfigService();

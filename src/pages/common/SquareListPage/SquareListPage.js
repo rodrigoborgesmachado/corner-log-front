@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './SquareListPage.css';
 import squareApi from '../../../services/apiServices/squareApi';
 import { setLoading } from '../../../services/redux/loadingSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import configService from '../../../services/configService';
 import Pagination from '../../../components/common/Pagination/Pagination'; 
 import { toast } from 'react-toastify';
@@ -14,6 +14,7 @@ import EyeIcon from '../../../components/icons/EyeIcon';
 import AddSquareModal from '../../../components/client/AddSquareModal/AddSquareModal';
 
 const SquareListPage = () => {
+    const isAdmin = useSelector((state) => state.auth.isAdmin);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [items, setItems] = useState([]);
@@ -133,10 +134,15 @@ const SquareListPage = () => {
     <div className="container-admin-page">
         <AddSquareModal isOpen={isModalRegisterOpen} onClose={closeRegisterModal} onSubmit={createNewItem}/>
         <AddSquareModal isOpen={isModalEditOpen} onClose={closeEditModal} onSubmit={updateItem} codeSquare={editCode}/>
-        <div className='title-with-options'>
+        {
+            isAdmin ?
             <h1>Quadras</h1>
-            <button className='main-button' onClick={openRegisterModal}>Nova Quadra</button>
-        </div>
+            :
+            <div className='title-with-options'>
+                <h1>Quadras</h1>
+                <button className='main-button' onClick={openRegisterModal}>Nova Quadra</button>
+            </div>
+        }
         <div className='container-admin-page-filters div-with-border'>
             <h3>Filtros</h3>
             <FilterComponent placeHolder={'Descrição'} showTermFilter={true} showStartDate={true} showEndDate={true} submitFilter={search} exportFunction={exportFunction}/>

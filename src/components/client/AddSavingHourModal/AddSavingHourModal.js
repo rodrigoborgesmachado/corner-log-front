@@ -87,6 +87,7 @@ const AddSavingHourModal = ({ isOpen, onClose, onSubmit, configuration }) => {
                     {configuration && (
                         <div className="saving-config-details">
                             <h3 className="saving-config-title">Detalhes da Configuração</h3>
+                            <p><strong>Quadra:</strong> {configuration.Square.Name}</p>
                             <p><strong>Horário:</strong> {configuration.Starttime} - {configuration.Endtime}</p>
                             <p><strong>Valor:</strong> R$ {configuration.Price}</p>
                             <p><strong>Observação:</strong> {configuration.Observation || "Sem observação"}</p>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import AdminLayout from '../../layouts/admin/AdminLayout';
 import DashboardPage from '../../pages/admin/DashBoard/DashboardPage';
 import CashregisterListPage from '../../pages/admin/CashregisterListPage/CashregisterListPage';
 import EntityListPage from '../../pages/admin/EntityListPage/EntityListPage';
@@ -17,9 +16,10 @@ import EntityPage from '../../pages/common/EntityPage/EntityPage';
 import SquarePage from '../../pages/admin/SquarePage/SquarePage';
 import ProductListPage from '../../pages/common/ProductListPage/ProductListPage';
 import ProductPage from '../../pages/common/ProductPage/ProductPage';
+import ClientLayout from '../../layouts/client/ClientLayout';
 
-const AdminRoutes = () => (
-  <AdminLayout>
+const ClientRoutes = () => (
+  <ClientLayout>
     <Routes>
       <Route path="/" element={<DashboardPage />} />
       <Route path="/CashRegister" element={<CashregisterListPage />} />
@@ -40,8 +40,8 @@ const AdminRoutes = () => (
       <Route path="/UserEntity" element={<UserentityListPage />} />
       <Route path="/*" element={<DashboardPage />} />
       </Routes>
-  </AdminLayout>
+  </ClientLayout>
 );
 
-export default AdminRoutes;
+export default ClientRoutes;
 

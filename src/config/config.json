@@ -1,4 +1,5 @@
 {    
     "apiUrl": "https://localhost:7157",
-    "DefaultNumberOfItemsTable": 6
+    "DefaultNumberOfItemsTable": 6,
+    "SunSaleCode": "2EF57403-26FA-4D58-ABF3-003DEC9F94B7"
 }

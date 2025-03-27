@@ -59,7 +59,7 @@ const SquaresavingListPage = () => {
             const formattedDate = format(date, "yyyy-MM-dd");
             const dayOfWeek = date.getDay() + 1; // Convert JavaScript 0-6 (Sunday-Saturday) to 1-7
 
-            const configResponse = await squareConfigApi.getBySquareCode(squareCode);
+            const configResponse = await squareConfigApi.getBySquareCode(squareCode, {include: "Square"});
             const filteredConfig = configResponse.filter(config => config.Dayofweek === dayOfWeek);
 
             const savingsResponse = await squareSavingApi.getBySquareAndDate(squareCode, {
