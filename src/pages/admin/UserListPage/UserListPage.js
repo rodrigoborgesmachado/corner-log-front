@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { putDateOnPattern } from '../../../utils/functions';
 import FilterComponent from '../../../components/admin/FilterComponent/FilterComponent';
 import ConfirmModal from '../../../components/common/Modals/ConfirmModal/ConfirmModal';
+import AddUserModal from '../../../components/admin/Modals/AddUserModal/AddUserModal';
 
 const UserListPage = () => {
     const dispatch = useDispatch();
@@ -21,9 +22,18 @@ const UserListPage = () => {
     const [totalItens, setTotalItens] = useState(0);
     const [clientSelected, setClientSelected] = useState();
     const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+    const [isModalRegisterOpen, setIsModalRegisterOpen] = useState(false);
     const [refresh, setRefresh] = useState(false);
     const quantity = configService.getDefaultNumberOfItemsTable(); 
     const orderBy = "Id:Desc";
+
+    const openRegisterModal = () => {
+        setIsModalRegisterOpen(true);
+    }
+
+    const closeRegisterModal = () => {
+        setIsModalRegisterOpen(false);
+    }
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -102,8 +112,25 @@ const UserListPage = () => {
         setIsModalDeleteOpen(false);
     };
 
+    const createNewItem = async (item) =>{
+        try{
+            dispatch(setLoading(true));
+            var response = await userApi.create(item);
+
+            toast.success(response.Name + ' criado com sucesso!');
+            setRefresh((prev) => !prev);
+        }
+        catch(error){
+            toast.error('Error: ' + error);
+        }
+        finally{
+            dispatch(setLoading(false));
+        }
+    }
+
     return (
     <div className="container-admin-page">
+        <AddUserModal isOpen={isModalRegisterOpen} onClose={closeRegisterModal} onSubmit={createNewItem}/>
         <ConfirmModal
             isOpen={isModalDeleteOpen}
             title={'Atenção'}
@@ -114,7 +141,10 @@ const UserListPage = () => {
             noLabel="Não"
             confirmData={clientSelected}
         />
-        <h1>Lista dos Usuários</h1>
+        <div className='title-with-options'>
+            <h1>Lista dos Usuários</h1>
+            <button className='main-button' onClick={openRegisterModal}>Novo Usuário</button>
+        </div>
         <div className='container-admin-page-filters div-with-border'>
             <h3>Filtros</h3>
             <FilterComponent placeHolder={'Descrição'} showTermFilter={true} showStartDate={true} showEndDate={true} submitFilter={search} exportFunction={exportFunction}/>

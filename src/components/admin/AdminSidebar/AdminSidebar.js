@@ -38,6 +38,7 @@ const AdminSidebar = () => {
       <nav className="sidebar__menu">
         {isAdmin && <a href="/" className={pathSegments.length === 0 || (pathSegments[0] === 'dashboard') || pathSegments[1] === 'dashboard' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><DashBoardIcon color='white'/>Dashboard</a>}
         {isAdmin && <a href="/Empresas" className={pathSegments[0] === 'Empresas' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BuildingIcon color='white'/>Empresas</a>}
+        {isAdmin && <a href="/Usuarios" className={pathSegments[0] === 'Usuarios' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><UserIcon color='white'/>Usuários</a>}
         {isAdmin && <a href="/Quadras" className={pathSegments[0] === 'Quadras' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><FootballFieldIcon color='white'/>Quadras</a>}
         {isAdmin && <a href="/Horarios" className={pathSegments[0] === 'Horários' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><ClockIcon color='white'/>Configuração Horários</a>}
         {isAdmin && <a href="/Reservas" className={pathSegments[0] === 'Reservas' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><CalendarIcon color='white'/>Reservas</a>}
@@ -46,7 +47,6 @@ const AdminSidebar = () => {
         {isAdmin && <a href="/Logger" className={pathSegments[0] === 'Logger' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>Logger</a>}
         {isAdmin && <a href="/MailMessage" className={pathSegments[0] === 'MailMessage' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>MailMessage</a>}
         {isAdmin && <a href="/Payment" className={pathSegments[0] === 'Payment' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>Payment</a>}
-        {isAdmin && <a href="/Usuarios" className={pathSegments[0] === 'Usuarios' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><UserIcon color='white'/>Usuários</a>}
         {isAdmin && <a href="/UserEntity" className={pathSegments[0] === 'UserEntity' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>UserEntity</a>}
         </nav>
       <button className="sidebar__logoff" onClick={handleLogout}>

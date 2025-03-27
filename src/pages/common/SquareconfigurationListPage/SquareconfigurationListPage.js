@@ -5,7 +5,7 @@ import { setLoading } from "../../../services/redux/loadingSlice";
 import squareApi from "../../../services/apiServices/squareApi";
 import squareConfigApi from "../../../services/apiServices/squareconfigurationApi";
 import "./SquareconfigurationListPage.css";
-import AddSquareConfigurationModal from "../../../components/admin/Modals/AddSquareConfigurationModal/AddSquareConfigurationModal";
+import AddSquareConfigurationModal from "../../../components/client/AddSquareConfigurationModal/AddSquareConfigurationModal";
 import DeleteIcon from "../../../components/icons/DeleteIcon";
 import ConfirmModal from "../../../components/common/Modals/ConfirmModal/ConfirmModal";
 

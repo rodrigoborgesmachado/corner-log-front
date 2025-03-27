@@ -8,15 +8,15 @@ import LoggerListPage from '../../pages/admin/LoggerListPage/LoggerListPage';
 import MailmessageListPage from '../../pages/admin/MailmessageListPage/MailmessageListPage';
 import PaymentListPage from '../../pages/admin/PaymentListPage/PaymentListPage';
 import SquareListPage from '../../pages/admin/SquareListPage/SquareListPage';
-import SquareconfigurationListPage from '../../pages/admin/SquareconfigurationListPage/SquareconfigurationListPage';
+import SquareconfigurationListPage from '../../pages/common/SquareconfigurationListPage/SquareconfigurationListPage';
 import SquaresavingListPage from '../../pages/admin/SquaresavingListPage/SquaresavingListPage';
 import UserListPage from '../../pages/admin/UserListPage/UserListPage';
 import UserentityListPage from '../../pages/admin/UserentityListPage/UserentityListPage';
 import EntityCreatePage from '../../pages/admin/EntityCreatePage/EntityCreatePage';
-import EntityPage from '../../pages/admin/EntityPage/EntityPage';
+import EntityPage from '../../pages/common/EntityPage/EntityPage';
 import SquarePage from '../../pages/admin/SquarePage/SquarePage';
 import ProductListPage from '../../pages/admin/ProductListPage/ProductListPage';
-import ProductPage from '../../pages/admin/ProductPage/ProductPage';
+import ProductPage from '../../pages/common/ProductPage/ProductPage';
 
 const AdminRoutes = () => (
   <AdminLayout>

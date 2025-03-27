@@ -9,7 +9,7 @@ import Pagination from "../../../components/common/Pagination/Pagination";
 import { toast } from "react-toastify";
 import FilterComponent from "../../../components/admin/FilterComponent/FilterComponent";
 import { putDateOnPattern } from "../../../utils/functions";
-import AddProductModal from "../../../components/admin/Modals/AddProductModal/AddProductModal";
+import AddProductModal from "../../../components/client/AddProductModal/AddProductModal";
 import EditIcon from "../../../components/icons/EditIcon";
 import { useNavigate } from "react-router-dom";
 import EyeIcon from "../../../components/icons/EyeIcon";

@@ -1,109 +1,154 @@
-import React, { useState } from "react";
-import "./AddUserModal.css";
-import adminApi from "../../../../services/apiServices/userApi";
-import { useDispatch } from "react-redux";
-import { setLoading } from "../../../../services/redux/loadingSlice";
-import MessageModal from "../../../common/Modals/MessageModal/MessageModal";
-import { useNavigate } from 'react-router-dom';
+import './AddUserModal.css';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setLoading } from '../../../../services/redux/loadingSlice';
+import { toast } from 'react-toastify';
+import entityApi from '../../../../services/apiServices/entityApi';
+import { maskPhone } from '../../../../utils/masks';
 
-const AddUserModal = ({ isOpen, closeModal }) => {
-    const navigate = useNavigate();
-
-    const [name, setName] = useState("");
-    const [username, setUsername] = useState("");
-    const [message, setMessage] = useState("");
-    const [isMessageOpen, setIsMessageOpen] = useState(false);
+const AddUserModal = ({ isOpen, onClose, onSubmit, userData = null }) => {
     const dispatch = useDispatch();
+    const [user, setUser] = useState({
+        Name: '',
+        Phone: '',
+        Email: '',
+        Observation: '',
+        EntityCode: ''
+    });
+    const [entityList, setEntityList] = useState([]);
 
-    const openMessageModal = () => {
-        setIsMessageOpen(true);
-    };
-
-    const closeMessageModal = () => {
-        setIsMessageOpen(false);
-        if (message.includes("sucesso")) {
-            closeModal(); // Close the modal on successful creation
-            navigate('/usuarios');
-        }
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const payload = {
-            name,
-            username
+    useEffect(() => {
+        const fetchEntities = async () => {
+            try {
+                dispatch(setLoading(true));
+                const response = await entityApi.getAll();
+                setEntityList(response);
+            } catch (error) {
+                toast.error('Erro ao carregar as empresas!');
+            } finally {
+                dispatch(setLoading(false));
+            }
         };
 
-        try {
-            dispatch(setLoading(true));
-            const response = await adminApi.create(payload);
-            var message = response.Code ? 'Usuário criado com sucesso' : 'Erro ao criar usuário. Verifique os dados e tente novamente.';
+        fetchEntities();
 
-            setUsername('');
-            setName('');
-            setMessage(message);
-            openMessageModal();
-        } catch (error) {
-            setMessage("Erro ao criar usuário. Verifique os dados e tente novamente.");
-            openMessageModal();
-        } finally {
-            dispatch(setLoading(false));
+        if (userData) {
+            setUser(userData);
         }
+    }, [dispatch, userData]);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUser((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onSubmit(user);
+        clear();
+        onClose();
+    };
+
+    const clear = () => {
+        setUser({
+            Name: '',
+            Phone: '',
+            Email: '',
+            Observation: '',
+            EntityCode: ''
+        });
     };
 
     if (!isOpen) return null;
 
     return (
-        <div className="modal-backdrop">
-            <MessageModal
-                isOpen={isMessageOpen}
-                click={closeMessageModal}
-                message={message}
-            />
-            <div className="modal-container">
-                <button className="close-button" onClick={closeModal}>
+        <div className="modal-backdrop-register">
+            <div className="modal-container-register">
+                <button className="close-button" onClick={onClose}>
                     &times;
                 </button>
-                <h2 className="modal-title">Adicionar Usuário</h2>
-                <form onSubmit={handleSubmit} className="modal-content">
-                    <div className="cadastro-new-user">
-                        <div className="form-group">
-                            <label htmlFor="name">Nome</label>
+                <form onSubmit={handleSubmit} className="register-form">
+
+                    <div className="form-group-register">
+                        <div className="form-group-inside">
+                            <label>Nome:</label>
                             <input
                                 type="text"
-                                id="name"
-                                className="main-input"
-                                placeholder="Digite o nome completo"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
+                                name="Name"
+                                value={user.Name}
+                                onChange={handleInputChange}
                                 required
                             />
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="username">Email</label>
+                    </div>
+
+                    <div className="form-group-register">
+                        <div className="form-group-inside">
+                            <label>Telefone:</label>
+                            <input
+                                type="tel"
+                                name="Phone"
+                                value={maskPhone(user.Phone)}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className="form-group-register">
+                        <div className="form-group-inside">
+                            <label>Email:</label>
                             <input
                                 type="email"
-                                id="username"
-                                className="main-input"
-                                placeholder="Digite o email"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                name="Email"
+                                value={user.Email}
+                                onChange={handleInputChange}
                                 required
                             />
                         </div>
-                        <div className="modal-actions flex-row">
-                            <button
-                                type="button"
-                                className="main-button"
-                                onClick={closeModal}
-                            >
-                                Cancelar
-                            </button>
-                            <button type="submit" className="main-button">
-                                Salvar
-                            </button>
+                    </div>
+
+                    <div className="form-group-register">
+                        <div className="form-group-inside">
+                            <label>Observação:</label>
+                            <textarea
+                                name="Observation"
+                                value={user.Observation}
+                                onChange={handleInputChange}
+                                rows="4"
+                            />
                         </div>
+                    </div>
+
+                    <div className="form-group-register">
+                        <div className="form-group-inside">
+                            <label>Entidade:</label>
+                            <select
+                                name="EntityCode"
+                                value={user.EntityCode}
+                                onChange={handleInputChange}
+                                required
+                            >
+                                <option value="">Selecione a Empresa</option>
+                                {entityList.map((entity) => (
+                                    <option key={entity.Code} value={entity.Code}>
+                                        {entity.Tradename}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div className="form-group-register option-next-register">
+                        <button className="main-button" type="button" onClick={onClose}>
+                            Cancelar
+                        </button>
+                        <button className="main-button" type="submit">
+                            Salvar
+                        </button>
                     </div>
                 </form>
             </div>

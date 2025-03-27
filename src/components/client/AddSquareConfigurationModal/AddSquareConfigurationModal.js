@@ -1,8 +1,8 @@
 import "./AddSquareConfigurationModal.css";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setLoading } from "../../../../services/redux/loadingSlice";
-import squareConfigApi from "../../../../services/apiServices/squareconfigurationApi";
+import { setLoading } from "../../../services/redux/loadingSlice";
+import squareConfigApi from "../../../services/apiServices/squareconfigurationApi";
 import { toast } from "react-toastify";
 
 const daysOfWeek = [

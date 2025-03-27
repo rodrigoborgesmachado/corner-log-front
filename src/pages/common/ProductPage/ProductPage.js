@@ -6,7 +6,7 @@ import "./ProductPage.css";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { setLoading } from "../../../services/redux/loadingSlice";
-import AddProductModal from "../../../components/admin/Modals/AddProductModal/AddProductModal";
+import AddProductModal from "../../../components/client/AddProductModal/AddProductModal";
 import AddIcon from "../../../components/icons/AddIcon";
 import { putDateOnPattern } from "../../../utils/functions";
 

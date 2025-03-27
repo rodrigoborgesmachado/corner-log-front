@@ -98,6 +98,21 @@ const userApi = {
     },
 
     /**
+         * Create a new admin.
+         * @param {Object} adminData - The admin data to create.
+         * @returns {Promise<Object>} - The created admin data.
+         */
+    confirmUser: async (adminData) => {
+        try {
+            const response = await api.post('/User/confirm-user', adminData);
+            return response.data;
+        } catch (error) {
+            console.error('Error confirming admin:', error);
+            throw error;
+        }
+    },
+
+    /**
      * Fetch a paginated list of items with optional filters.
      * @param {Object} params - Query parameters such as `page`, `quantity`, `isActive`, `term`, `orderBy`, `include`.
      * @returns {Promise<Object>} - The paginated list of items.
