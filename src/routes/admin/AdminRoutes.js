@@ -9,10 +9,10 @@ import MailmessageListPage from '../../pages/admin/MailmessageListPage/Mailmessa
 import PaymentListPage from '../../pages/admin/PaymentListPage/PaymentListPage';
 import SquareListPage from '../../pages/common/SquareListPage/SquareListPage';
 import SquareconfigurationListPage from '../../pages/common/SquareconfigurationListPage/SquareconfigurationListPage';
-import SquaresavingListPage from '../../pages/admin/SquaresavingListPage/SquaresavingListPage';
+import SquaresavingListPage from '../../pages/common/SquaresavingListPage/SquaresavingListPage';
 import UserListPage from '../../pages/admin/UserListPage/UserListPage';
 import UserentityListPage from '../../pages/admin/UserentityListPage/UserentityListPage';
-import EntityCreatePage from '../../pages/admin/EntityCreatePage/EntityCreatePage';
+import EntityCreatePage from '../../pages/common/EntityCreatePage/EntityCreatePage';
 import EntityPage from '../../pages/common/EntityPage/EntityPage';
 import SquarePage from '../../pages/admin/SquarePage/SquarePage';
 import ProductListPage from '../../pages/common/ProductListPage/ProductListPage';
