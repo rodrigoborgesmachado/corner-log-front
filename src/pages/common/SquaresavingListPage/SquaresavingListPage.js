@@ -9,7 +9,7 @@ import "./SquaresavingListPage.css";
 import { format, addDays, subDays } from "date-fns";
 import { maskPhone } from "../../../utils/masks";
 import ConfirmModal from "../../../components/common/Modals/ConfirmModal/ConfirmModal";
-import AddSavingHourModal from "../../../components/client/AddSavingHourModal/AddSavingHourModal";
+import AddSavingHourModal from "../../../components/client/Modals/AddSavingHourModal/AddSavingHourModal";
 import ViewSavingDetailsModal from "../../../components/admin/Modals/ViewSavingDetailsModal/ViewSavingDetailsModal";
 
 const daysOfWeek = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];

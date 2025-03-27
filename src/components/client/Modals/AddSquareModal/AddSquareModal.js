@@ -1,8 +1,8 @@
 import './AddSquareModal.css';
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoading } from '../../../services/redux/loadingSlice';
-import squareApi from '../../../services/apiServices/squareApi';
+import { setLoading } from '../../../../services/redux/loadingSlice';
+import squareApi from '../../../../services/apiServices/squareApi';
 import { toast } from 'react-toastify';
 
 const AddSquareModal = ({ isOpen, onClose, onSubmit, codeSquare = null }) => {

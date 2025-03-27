@@ -501,6 +501,22 @@ body {
     color: var(--button-color-primary-wrong);
 }
 
+.text-green {
+    color: var(--button-color-primary-right); /* #2D6A4F */
+}
+
+.text-green:hover {
+    color: var(--button-color-primary-right-hover); /* #1F5237 */
+}
+
+.text-red {
+    color: var(--button-color-primary-wrong); /* #D62828 */
+}
+
+.text-red:hover {
+    color: var(--button-color-primary-wrong-hover); /* #A61616 */
+}
+
 /* Make sure the form stays centered on smaller screens */
 @media (max-width: 768px) {
     .form-register {

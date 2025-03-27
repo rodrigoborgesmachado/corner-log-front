@@ -11,7 +11,7 @@ import FilterComponent from '../../../components/admin/FilterComponent/FilterCom
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '../../../components/icons/EditIcon';
 import EyeIcon from '../../../components/icons/EyeIcon';
-import AddSquareModal from '../../../components/client/AddSquareModal/AddSquareModal';
+import AddSquareModal from '../../../components/client/Modals/AddSquareModal/AddSquareModal';
 
 const SquareListPage = () => {
     const isAdmin = useSelector((state) => state.auth.isAdmin);

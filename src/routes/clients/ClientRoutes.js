@@ -5,7 +5,6 @@ import CashregisterListPage from '../../pages/admin/CashregisterListPage/Cashreg
 import EntityListPage from '../../pages/admin/EntityListPage/EntityListPage';
 import LoggerListPage from '../../pages/admin/LoggerListPage/LoggerListPage';
 import MailmessageListPage from '../../pages/admin/MailmessageListPage/MailmessageListPage';
-import PaymentListPage from '../../pages/admin/PaymentListPage/PaymentListPage';
 import SquareListPage from '../../pages/common/SquareListPage/SquareListPage';
 import SquareconfigurationListPage from '../../pages/common/SquareconfigurationListPage/SquareconfigurationListPage';
 import SquaresavingListPage from '../../pages/common/SquaresavingListPage/SquaresavingListPage';
@@ -17,6 +16,7 @@ import SquarePage from '../../pages/admin/SquarePage/SquarePage';
 import ProductListPage from '../../pages/common/ProductListPage/ProductListPage';
 import ProductPage from '../../pages/common/ProductPage/ProductPage';
 import ClientLayout from '../../layouts/client/ClientLayout';
+import PaymentPage from '../../pages/client/PaymentPage/PaymentPage';
 
 const ClientRoutes = () => (
   <ClientLayout>
@@ -34,7 +34,7 @@ const ClientRoutes = () => (
       <Route path="/Produtos/:code" element={<ProductPage />} />
       <Route path="/Logger" element={<LoggerListPage />} />
       <Route path="/MailMessage" element={<MailmessageListPage />} />
-      <Route path="/Payment" element={<PaymentListPage />} />
+      <Route path="/Pagamentos" element={<PaymentPage />} />
       <Route path="/Reservas" element={<SquaresavingListPage />} />
       <Route path="/Usuarios" element={<UserListPage />} />
       <Route path="/UserEntity" element={<UserentityListPage />} />

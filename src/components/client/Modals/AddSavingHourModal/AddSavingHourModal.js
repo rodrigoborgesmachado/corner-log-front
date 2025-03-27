@@ -1,11 +1,11 @@
 import "./AddSavingHourModal.css";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setLoading } from "../../../services/redux/loadingSlice";
-import squareSavingApi from "../../../services/apiServices/squaresavingApi";
+import { setLoading } from "../../../../services/redux/loadingSlice";
+import squareSavingApi from "../../../../services/apiServices/squaresavingApi";
 import { toast } from "react-toastify";
 import { format, startOfWeek, addDays } from "date-fns";
-import { maskPhone } from "../../../utils/masks";
+import { maskPhone } from "../../../../utils/masks";
 
 const AddSavingHourModal = ({ isOpen, onClose, onSubmit, configuration }) => {
     const dispatch = useDispatch();

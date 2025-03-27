@@ -1,8 +1,8 @@
 import './AddProductModal.css';
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoading } from '../../../services/redux/loadingSlice';
-import productApi from '../../../services/apiServices/productApi';
+import { setLoading } from '../../../../services/redux/loadingSlice';
+import productApi from '../../../../services/apiServices/productApi';
 import { toast } from 'react-toastify';
 
 const AddProductModal = ({ isOpen, onClose, onSubmit, codeProduct = null }) => {

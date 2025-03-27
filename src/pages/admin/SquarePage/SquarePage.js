@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { setLoading } from "../../../services/redux/loadingSlice";
 import { maskCEP, maskCNPJ, maskPhone } from "../../../utils/masks";
 import { putDateOnPattern } from "../../../utils/functions";
-import AddSquareModal from "../../../components/client/AddSquareModal/AddSquareModal";
+import AddSquareModal from "../../../components/client/Modals/AddSquareModal/AddSquareModal";
 import AddIcon from "../../../components/icons/AddIcon";
 
 const SquarePage = () => {

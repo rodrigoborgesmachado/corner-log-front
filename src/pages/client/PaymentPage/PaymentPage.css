@@ -1,0 +1,7 @@
+.payment-status {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: var(--default-border-radius);
+    font-size: 14px;
+    display: inline-block;
+}

@@ -14,6 +14,7 @@ import FootballFieldIcon from '../../icons/FootballFieldIcon';
 import ClockIcon from '../../icons/ClockIcon';
 import CalendarIcon from '../../icons/CalendarIcon';
 import OrderIcon from '../../icons/OrderIcon';
+import PaymentIcon from '../../icons/PaymentIcon';
 
 const ClientSidebar = () => {
   const location = useLocation();
@@ -38,8 +39,8 @@ const ClientSidebar = () => {
         <a href="/Horarios" className={pathSegments[0] === 'Horários' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><ClockIcon color='white'/>Configuração Horários</a>
         <a href="/Reservas" className={pathSegments[0] === 'Reservas' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><CalendarIcon color='white'/>Reservas</a>
         <a href="/Produtos" className={pathSegments[0] === 'Produtos' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><OrderIcon color='white'/>Produtos</a>
+        <a href="/Pagamentos" className={pathSegments[0] === 'Pagamentos' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><PaymentIcon color='white'/>Pagamentos</a>
         <a href="/CashRegister" className={pathSegments[0] === 'CashRegister' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>CashRegister</a>
-        <a href="/Payment" className={pathSegments[0] === 'Payment' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><BasketIcon color='white'/>Payment</a>
         <a href="/Usuarios" className={pathSegments[0] === 'Usuarios' ? "sidebar__menu-item sidebar__menu-item-selected" : "sidebar__menu-item"}><UserIcon color='white'/>Usuários</a>
         </nav>
       <button className="sidebar__logoff" onClick={handleLogout}>

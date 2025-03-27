@@ -1,6 +1,6 @@
 import api from './serviceApi'; 
 
-const paymentApi = {
+const productPaymentApi = {
     /**
      * Fetch all with optional filters.
      * @param {Object} params - Query parameters such as `include`.
@@ -8,7 +8,7 @@ const paymentApi = {
      */
     getAll: async (params = {}) => {
         try {
-            const response = await api.get('/Payment', { params });
+            const response = await api.get('/ProductPayment', { params });
             return response.data;
         } catch (error) {
             console.error('Error fetching all items es:', error);
@@ -23,7 +23,7 @@ const paymentApi = {
      */
     getAllByCurrentCash: async (params = {}) => {
         try {
-            const response = await api.get('/Payment/by-current-cash', { params });
+            const response = await api.get('/ProductPayment/by-current-cash', { params });
             return response.data;
         } catch (error) {
             console.error('Error fetching all items es:', error);
@@ -39,7 +39,7 @@ const paymentApi = {
      */
     getByCode: async (code, params = {}) => {
         try {
-            const response = await api.get(`/Payment/${code}`, { params });
+            const response = await api.get(`/ProductPayment/${code}`, { params });
             return response.data;
         } catch (error) {
             console.error('Error fetching items by code:', error);
@@ -54,7 +54,7 @@ const paymentApi = {
      */
     create: async (itemsData) => {
         try {
-            const response = await api.post('/Payment', itemsData);
+            const response = await api.post('/ProductPayment', itemsData);
             return response.data;
         } catch (error) {
             console.error('Error creating items:', error);
@@ -69,7 +69,7 @@ const paymentApi = {
      */
     update: async (itemsData) => {
         try {
-            const response = await api.put('/Payment', itemsData);
+            const response = await api.put('/ProductPayment', itemsData);
             return response.data;
         } catch (error) {
             console.error('Error updating items :', error);
@@ -84,7 +84,7 @@ const paymentApi = {
      */
     delete: async (itemsCode) => {
         try {
-            const response = await api.delete('/Payment', {
+            const response = await api.delete('/ProductPayment', {
                 data: { code: itemsCode },
             });
             return response.data;
@@ -101,7 +101,7 @@ const paymentApi = {
      */
     export: async (params) => {
         try {
-            const response = await api.get('/Payment/export', {
+            const response = await api.get('/ProductPayment/export', {
                 params,
 
             });
@@ -119,7 +119,7 @@ const paymentApi = {
      */
     getPaginated: async (params) => {
         try {
-            const response = await api.get('/Payment/pagged', { params });
+            const response = await api.get('/ProductPayment/pagged', { params });
             return response.data;
         } catch (error) {
             console.error('Error fetching paginated items:', error);
@@ -128,4 +128,4 @@ const paymentApi = {
     },
 };
 
-export default paymentApi;
+export default productPaymentApi;
