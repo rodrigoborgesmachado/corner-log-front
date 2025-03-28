@@ -1,6 +1,6 @@
 import api from './serviceApi'; 
 
-const squaresavingApi = {
+const squaresavingpaymentApi = {
     /**
      * Fetch all with optional filters.
      * @param {Object} params - Query parameters such as `include`.
@@ -8,7 +8,7 @@ const squaresavingApi = {
      */
     getAll: async (params = {}) => {
         try {
-            const response = await api.get('/Squaresaving', { params });
+            const response = await api.get('/squaresavingpayment', { params });
             return response.data;
         } catch (error) {
             console.error('Error fetching all items es:', error);
@@ -21,9 +21,9 @@ const squaresavingApi = {
      * @param {Object} params - Query parameters such as `include`.
      * @returns {Promise<Object>} - The list.
      */
-    getCurrentSavings: async (params = {}) => {
+    getAllByCurrentCash: async (params = {}) => {
         try {
-            const response = await api.get('/Squaresaving/get-current-savings', { params });
+            const response = await api.get('/squaresavingpayment/by-current-cash', { params });
             return response.data;
         } catch (error) {
             console.error('Error fetching all items es:', error);
@@ -39,7 +39,7 @@ const squaresavingApi = {
      */
     getByCode: async (code, params = {}) => {
         try {
-            const response = await api.get(`/Squaresaving/${code}`, { params });
+            const response = await api.get(`/squaresavingpayment/${code}`, { params });
             return response.data;
         } catch (error) {
             console.error('Error fetching items by code:', error);
@@ -55,7 +55,7 @@ const squaresavingApi = {
      */
     getBySquareAndDate: async (code, params = {}) => {
         try {
-            const response = await api.get(`/Squaresaving/bysquare/${code}`, { params });
+            const response = await api.get(`/squaresavingpayment/bysquare/${code}`, { params });
             return response.data;
         } catch (error) {
             console.error('Error fetching items by code:', error);
@@ -70,7 +70,7 @@ const squaresavingApi = {
      */
     create: async (itemsData) => {
         try {
-            const response = await api.post('/Squaresaving', itemsData);
+            const response = await api.post('/squaresavingpayment', itemsData);
             return response.data;
         } catch (error) {
             console.error('Error creating items:', error);
@@ -85,7 +85,7 @@ const squaresavingApi = {
      */
     update: async (itemsData) => {
         try {
-            const response = await api.put('/Squaresaving', itemsData);
+            const response = await api.put('/squaresavingpayment', itemsData);
             return response.data;
         } catch (error) {
             console.error('Error updating items :', error);
@@ -115,7 +115,7 @@ const squaresavingApi = {
      */
     delete: async (code) => {
         try {
-            const response = await api.get('/Squaresaving/delete/' + code);
+            const response = await api.get('/squaresavingpayment/delete/' + code);
             return response.data;
         } catch (error) {
             console.error('Error deleting item:', error);
@@ -130,7 +130,7 @@ const squaresavingApi = {
      */
     export: async (params) => {
         try {
-            const response = await api.get('/Squaresaving/export', {
+            const response = await api.get('/squaresavingpayment/export', {
                 params,
 
             });
@@ -148,7 +148,7 @@ const squaresavingApi = {
      */
     getPaginated: async (params) => {
         try {
-            const response = await api.get('/Squaresaving/pagged', { params });
+            const response = await api.get('/squaresavingpayment/pagged', { params });
             return response.data;
         } catch (error) {
             console.error('Error fetching paginated items:', error);
@@ -157,4 +157,4 @@ const squaresavingApi = {
     },
 };
 
-export default squaresavingApi;
+export default squaresavingpaymentApi;
