@@ -4,7 +4,6 @@ import { setLoading } from "../../../services/redux/loadingSlice";
 import { toast } from "react-toastify";
 import "./PaymentPage.css";
 import productPaymentApi from "../../../services/apiServices/productPaymentApi";
-import cashApi from "../../../services/apiServices/cashregisterApi";
 import configService from "../../../services/configService";
 import { putDateOnPattern } from "../../../utils/functions";
 import OpenCashModal from '../../../components/client/Modals/OpenCashModal/OpenCashModal';
@@ -15,17 +14,22 @@ import FilterComponent from "../../../components/admin/FilterComponent/FilterCom
 import Pagination from "../../../components/common/Pagination/Pagination";
 import squaresavingpaymentApi from "../../../services/apiServices/squaresavingpaymentsApi";
 import AddSquarePaymentModal from "../../../components/client/Modals/AddSquarePaymentModal/AddSquarePaymentModal";
+import squareSavingApi from "../../../services/apiServices/squaresavingApi";
+import cashApi from "../../../services/apiServices/cashregisterApi";
+import { format, addDays, subDays } from "date-fns";
 
 const PaymentPage = () => {
     const dispatch = useDispatch();
     const [isCashOpen, setIsCashOpen] = useState(false);
-    const [squarePayments, setSquarePayments] = useState([]);
+    const [cash, setCash] = useState(false);
     const [productPayments, setProductPayments] = useState([]);
-
-    // Square Pagination
-    const [squarePage, setSquarePage] = useState(1);
-    const [squareTotalPages, setSquareTotalPages] = useState(1);
-    const [squareTotalItems, setSquareTotalItems] = useState(0);
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [savingsOfTheDay, setSavingsOfTheDay] = useState([]);
+    const [selectedSaving, setSelectedSaving] = useState(null);
+    const [savingPayments, setSavingPayments] = useState([]);
+    const [savingPage, setSavingPage] = useState(1);
+    const [savingTotalPages, setSavingTotalPages] = useState(1);
+    const [savingTotalItems, setSavingTotalItems] = useState(0);
 
     // Product Pagination
     const [productPage, setProductPage] = useState(1);
@@ -40,28 +44,19 @@ const PaymentPage = () => {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [isAddSquarePaymentModalOpen, setIsAddSquarePaymentModalOpen] = useState(false);
     const [refresh, setRefresh] = useState(false);
+    const [refreshPayments, setRefreshPayments] = useState(false);
 
     const quantity = configService.getDefaultNumberOfItemsTable();
-    const orderBy = "Id:Desc";
+    const orderBy = "Created:Desc";
 
     useEffect(() => {
-        const loadSquarePayments = async () => {
+        const loadCash = async () => {
             try {
                 dispatch(setLoading(true));
                 const cash = await cashApi.getCurrentCash();
                 setIsCashOpen(!!cash);
+                setCash(cash);
 
-                const response = await squaresavingpaymentApi.getPaginated({
-                    page: squarePage,
-                    quantity,
-                    orderBy,
-                    currentCash: true,
-                    include: 'Payment,SquareSaving.Squareconfiguration.Square',
-                });
-
-                setSquarePayments(response.Results || []);
-                setSquareTotalPages(response.TotalPages);
-                setSquareTotalItems(response.TotalCount);
             } catch (error) {
                 toast.error("Erro ao carregar dados de pagamentos de quadras.");
             } finally {
@@ -69,8 +64,34 @@ const PaymentPage = () => {
             }
         };
 
-        loadSquarePayments();
-    }, [dispatch, refresh, squarePage, quantity]);
+        loadCash();
+    }, [dispatch, refresh]);
+
+    useEffect(() => {
+        const loadSavingPayments = async () => {
+            if (!selectedSaving) return;
+            try {
+                dispatch(setLoading(true));
+                const result = await squaresavingpaymentApi.getPaginated({
+                    page: savingPage,
+                    quantity: 100,
+                    orderBy,
+                    savingSquare: selectedSaving.Code,
+                    include: "Payment,SquareSaving.Squareconfiguration.Square"
+                });
+    
+                setSavingPayments(result.Results || []);
+                setSavingTotalPages(result.TotalPages);
+                setSavingTotalItems(result.TotalCount);
+            } catch {
+                toast.error("Erro ao carregar os pagamentos da quadra.");
+            } finally {
+                dispatch(setLoading(false));
+            }
+        };
+    
+        loadSavingPayments();
+    }, [selectedSaving, refreshPayments, savingPage, orderBy, dispatch]);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -99,15 +120,38 @@ const PaymentPage = () => {
         fetchProducts();
     }, [dispatch, refresh, productPage, searchTerm, quantity]);
 
+    useEffect(() => {
+        const fetchSavings = async () => {
+            try {
+                dispatch(setLoading(true));
+                const date = format(selectedDate, 'yyyy-MM-dd');
+                const result = await squareSavingApi.getCurrentSavings({
+                    startDate: date,
+                    endDate: date,
+                    include: "Squareconfiguration.Square,SquareSavingpayment"
+                });
+    
+                setSavingsOfTheDay(result);
+                if (result.length > 0) {
+                    setSelectedSaving(result[0]);
+                } else {
+                    setSelectedSaving(null);
+                }
+            } catch (err) {
+                toast.error("Erro ao buscar reservas do dia.");
+                setSavingsOfTheDay([]);
+                setSelectedSaving(null);
+            } finally {
+                dispatch(setLoading(false));
+            }
+        };
+    
+        fetchSavings();
+    }, [selectedDate, refresh, dispatch]);
+
     const handleProductSearch = ({ term }) => {
         setSearchTerm(term);
         setProductPage(1);
-    };
-
-    const handleSquarePageChange = (newPage) => {
-        if (newPage > 0 && newPage <= squareTotalPages) {
-            setSquarePage(newPage);
-        }
     };
 
     const handleProductPageChange = (newPage) => {
@@ -161,7 +205,7 @@ const PaymentPage = () => {
             <CloseCashModal isOpen={isCloseCashModalOpen} onClose={() => setIsCloseCashModalOpen(false)} onSubmit={() => setRefresh(prev => !prev)} />
             <SellProductModal isOpen={isSellProductModalOpen} onClose={() => setIsSellProductModalOpen(false)} onSelect={handleProductSelect} />
             <SelectQuantityModal isOpen={isSelectQuantityModalOpen} onClose={() => setIsSelectQuantityModalOpen(false)} onConfirm={handleConfirmQuantity} />
-            <AddSquarePaymentModal isOpen={isAddSquarePaymentModalOpen} onClose={() => setIsAddSquarePaymentModalOpen(false)} onSubmit={() => setRefresh(prev => !prev)} />
+            <AddSquarePaymentModal isOpen={isAddSquarePaymentModalOpen} onClose={() => setIsAddSquarePaymentModalOpen(false)} onSubmit={() => setRefreshPayments(prev => !prev)} savingCode={selectedSaving?.Code}/>
 
             <div className="title-with-options">
                 <h1>Gerenciamento de Pagamentos</h1>
@@ -171,9 +215,21 @@ const PaymentPage = () => {
             </div>
 
             <div className="payment-status">
-                <strong>Status do Caixa:</strong>
-                <span className={isCashOpen ? "text-green" : "text-red"}>{isCashOpen ? "Aberto" : "Fechado"}</span>
+                <h3>Status do Caixa:</h3>
+                <p>
+                    <strong>Status: </strong>
+                    <span className={isCashOpen ? "text-green" : "text-red"}>
+                        {isCashOpen ? "Aberto" : "Fechado"}
+                    </span>
+                </p>
+
+                {isCashOpen && cash && (
+                    <div className="cash-summary">
+                        <p><strong>Valor Inicial:</strong> R$ {cash.Initialamount.toFixed(2)}</p>
+                    </div>
+                )}
             </div>
+
 
             <div className="container-admin-page-table div-with-border">
                 <div className="title-with-options">
@@ -221,35 +277,79 @@ const PaymentPage = () => {
             <div className="container-admin-page-table div-with-border">
                 <div className="title-with-options">
                     <h2>💡 Pagamentos da Quadra</h2>
-                    <button className="main-button" disabled={!isCashOpen} onClick={() => setIsAddSquarePaymentModalOpen(true)}>Adicionar Pagamento</button>
                 </div>
-                <table className="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Valor</th>
-                            <th>Quadra</th>
-                            <th>Dia</th>
-                            <th>Horário</th>
-                            <th>Observação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {squarePayments.map(p => (
-                            <tr key={p.Code}>
-                                <td data-label="Data">{putDateOnPattern(p.Created)}</td>
-                                <td data-label="Valor">R$ {p.Payment.Paid.toFixed(2)}</td>
-                                <td data-label="Quadra">{getWeekdayName(p.SquareSaving.Squareconfiguration.Dayofweek)}</td>
-                                <td data-label="Dia">{p.SquareSaving.Squareconfiguration.Square.Name}</td>
-                                <td data-label="Horário">{p.SquareSaving.Squareconfiguration.Starttime} - {p.SquareSaving.Squareconfiguration.Endtime}</td>
-                                <td data-label="Observação">{p.Observation || "–"}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <sub>Total de Itens: {squareTotalItems}</sub>
-                <Pagination page={squarePage} totalPages={squareTotalPages} onPageChange={handleSquarePageChange} />
+
+                <div className="date-navigation">
+                    <button className="main-button" onClick={() => setSelectedDate(prev => subDays(prev, 1))}>← Dia Anterior</button>
+                    <h3>{format(selectedDate, 'dd/MM/yyyy')}</h3>
+                    <button className="main-button" onClick={() => setSelectedDate(prev => addDays(prev, 1))}>Próximo Dia →</button>
+                </div>
+
+                {selectedSaving && (
+                    <div className="savings-tabs">
+                        <div className="savings-tab-buttons">
+                            {savingsOfTheDay.map(s => (
+                                <button
+                                    key={s.Code}
+                                    className={`tab-button ${s.Code === selectedSaving.Code ? "active" : ""}`}
+                                    onClick={() => {
+                                        setSelectedSaving(s);
+                                        setSavingPage(1);
+                                    }}
+                                >
+                                    {s.Squareconfiguration?.Square?.Name ?? "Quadra"} ({s.Squareconfiguration?.Starttime} - {s.Squareconfiguration?.Endtime})
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="saving-summary title-with-options">
+                            <div>
+                                <p><strong>Valor esperado:</strong> R$ {selectedSaving?.Squareconfiguration?.Price?.toFixed(2)}</p>
+                                <p><strong>Total recebido:</strong> R$ {savingPayments.reduce((sum, p) => sum + (p.Payment?.Paid || 0), 0).toFixed(2)}</p>
+                                <p><strong>Faltando:</strong> R$ {((selectedSaving?.Squareconfiguration?.Price || 0) - savingPayments.reduce((sum, p) => sum + (p.Payment?.Paid || 0), 0)).toFixed(2)}</p>
+                                <p><strong>Pagamentos registrados:</strong> {savingTotalItems}</p>
+                            </div>
+
+                            <button
+                                className="main-button"
+                                onClick={() => setIsAddSquarePaymentModalOpen(true)}
+                                disabled={!isCashOpen}
+                            >
+                                Adicionar Pagamento
+                            </button>
+                        </div>
+
+                        <table className="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Valor</th>
+                                    <th>Quadra</th>
+                                    <th>Dia</th>
+                                    <th>Horário</th>
+                                    <th>Observação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {savingPayments.map(p => (
+                                    <tr key={p.Code}>
+                                        <td data-label="Data">{putDateOnPattern(p.Created)}</td>
+                                        <td data-label="Valor">R$ {p.Payment?.Paid.toFixed(2)}</td>
+                                        <td data-label="Quadra">{getWeekdayName(p.SquareSaving.Squareconfiguration.Dayofweek)}</td>
+                                        <td data-label="Dia">{p.SquareSaving.Squareconfiguration.Square.Name}</td>
+                                        <td data-label="Horário">{p.SquareSaving.Squareconfiguration.Starttime} - {p.SquareSaving.Squareconfiguration.Endtime}</td>
+                                        <td data-label="Observação">{p.Observation || "–"}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+
+                        <sub>Total de Itens: {savingTotalItems}</sub>
+                        <Pagination page={savingPage} totalPages={savingTotalPages} onPageChange={setSavingPage} />
+                    </div>
+                )}
             </div>
+
         </div>
     );
 };

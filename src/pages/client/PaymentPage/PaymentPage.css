@@ -5,3 +5,28 @@
     font-size: 14px;
     display: inline-block;
 }
+
+.saving-summary {
+    margin-bottom: var(--default-spacing);
+    padding: var(--default-spacing);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fafafa;
+}
+
+.saving-summary strong {
+    color: var(--text-color-primary);
+    font-weight: 500;
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+/* Inline button in summary */
+.saving-summary .main-button {
+    margin-left: auto;
+}
+
+/* Responsive Table in Tab */
+.savings-tabs .admin-table {
+    margin-top: var(--default-spacing);
+}

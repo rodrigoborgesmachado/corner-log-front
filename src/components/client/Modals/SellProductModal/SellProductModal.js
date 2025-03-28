@@ -17,7 +17,7 @@ const SellProductModal = ({ isOpen, onClose, onSelect }) => {
     const [totalPages, setTotalPages] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
     const quantity = configService.getDefaultNumberOfItemsTable();
-    const orderBy = "Id:Desc";
+    const orderBy = "Created:Desc";
 
     useEffect(() => {
         if (!isOpen) return;

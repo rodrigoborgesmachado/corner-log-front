@@ -29,7 +29,7 @@ const SquareListPage = () => {
     const [editCode, setEditCode] = useState(false);
     const [refresh, setRefresh] = useState(false);
     const quantity = configService.getDefaultNumberOfItemsTable(); 
-    const orderBy = "Id:Desc";
+    const orderBy = "Created:Desc";
 
     const openRegisterModal = () => {
         setIsModalRegisterOpen(true);

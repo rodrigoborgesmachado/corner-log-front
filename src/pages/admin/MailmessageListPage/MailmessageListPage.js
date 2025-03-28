@@ -19,7 +19,7 @@ const MailmessageListPage = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [totalItens, setTotalItens] = useState(0);
     const quantity = configService.getDefaultNumberOfItemsTable(); 
-    const orderBy = "Id:Desc";
+    const orderBy = "Created:Desc";
 
     useEffect(() => {
         const fetchItems = async () => {
